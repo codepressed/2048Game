@@ -46,7 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_USERNAME, scoreModel.getUsername());
         cv.put(COLUMN_SCORE, scoreModel.getScore());
-        cv.put(COLUMN_DATETIME, scoreModel.getDatatime());
+        cv.put(COLUMN_DATETIME, scoreModel.getDatetime());
         db.insert(SCORE_TABLE, null, cv);
     }
 
@@ -129,7 +129,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return topScore;
     }
 
-
+    /**
+     * Method to clean the DB
+     */
+    public void deleteAllData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String deleteAllQuery = "DELETE FROM "+ SCORE_TABLE;
+        db.execSQL(deleteAllQuery);
+    }
 
 }
 

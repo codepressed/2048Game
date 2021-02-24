@@ -9,20 +9,22 @@ import android.graphics.Insets;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowInsets;
-import android.view.WindowManager;
 import android.view.WindowMetrics;
 
 
 import androidx.annotation.NonNull;
 
+import com.codebinars.a2048gameclone.database.DatabaseHelper;
+import com.codebinars.a2048gameclone.database.ScoreModel;
 import com.codebinars.a2048gameclone.sprites.EndGame;
 import com.codebinars.a2048gameclone.sprites.Grid;
 import com.codebinars.a2048gameclone.sprites.Score;
+
+import java.util.List;
 
 public class GameManager extends SurfaceView implements SurfaceHolder.Callback, SwipeCallback, GameManagerCallback {
 
@@ -37,6 +39,7 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback, 
     private Score score;
     private Bitmap restartButton;
     private int restartButtonX, restartButtonY, restartButtonSize;
+    private DatabaseHelper databaseHelper;
 
     private SwipeListener swipe;
 
@@ -48,7 +51,6 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback, 
 
         scWidth = getScreenWidth((Activity)context);
         scHeight = getScreenHeight((Activity)context);
-
         standardSize = (int) (scWidth*0.88)/4;
 
         grid = new Grid(getResources(),scWidth,scHeight,standardSize);

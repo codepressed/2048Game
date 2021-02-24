@@ -106,9 +106,12 @@ public class TileManager implements TileManagerCallback, Sprite {
         }
     }
 
+    /**
+     * My algorithm to move and remove tiles
+     * @param direction to determine the case
+     */
     public void onSwipe(SwipeCallback.Direction direction) {
         if (!moving) {
-            //moving = true;
             Tile[][] newMatrix = new Tile[4][4];
             switch (direction) {
                 case UP:

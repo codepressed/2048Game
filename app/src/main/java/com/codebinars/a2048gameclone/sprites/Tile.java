@@ -17,11 +17,6 @@ public class Tile implements Sprite {
     private int speed = 100;
     private boolean increment = false;
 
-    public Tile(int standardSize, int screenWidth, int screenHeight, TileManagerCallback callback, int matrixX, int matrixY, int count) {
-        this(standardSize, screenWidth, screenHeight, callback, matrixX, matrixY);
-        this.count = count;
-    }
-
     public Tile(int standardSize, int screenWidth, int screenHeight, TileManagerCallback callback, int matrixX, int matrixY) {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;

@@ -9,8 +9,7 @@ import com.codebinars.a2048gameclone.R;
 
 public class Grid implements Sprite{
     private Bitmap grid;
-    private int screenWidth, screenHeight;
-    private int standardSize;
+    private int screenWidth, screenHeight, standardSize;
 
     public Grid(Resources resources, int screenWidth, int screenHeight, int standardSize ){
         this.screenWidth = screenWidth;

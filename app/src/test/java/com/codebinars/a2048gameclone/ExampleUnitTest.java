@@ -1,5 +1,7 @@
 package com.codebinars.a2048gameclone;
 
+import com.codebinars.a2048gameclone.database.DatabaseHelper;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -14,4 +16,5 @@ public class ExampleUnitTest {
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
     }
+
 }

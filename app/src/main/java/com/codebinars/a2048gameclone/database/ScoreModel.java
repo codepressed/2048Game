@@ -4,13 +4,13 @@ public class ScoreModel {
     private int id;
     private String username;
     private Integer score;
-    private String datatime;
+    private String datetime;
 
-    public ScoreModel(int id, String username, Integer score, String datatime) {
+    public ScoreModel(int id, String username, Integer score, String datetime) {
         this.id = id;
         this.username = username;
         this.score = score;
-        this.datatime = datatime;
+        this.datetime = datetime;
     }
 
     public ScoreModel(){
@@ -41,12 +41,12 @@ public class ScoreModel {
         this.score = score;
     }
 
-    public String getDatatime() {
-        return datatime;
+    public String getDatetime() {
+        return datetime;
     }
 
-    public void setDatatime(String datatime) {
-        this.datatime = datatime;
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
     }
 
     @Override
@@ -55,7 +55,7 @@ public class ScoreModel {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", score='" + score + '\'' +
-                ", datatime='" + datatime + '\'' +
+                ", datetime='" + datetime + '\'' +
                 '}';
     }
 }
