@@ -1,10 +1,11 @@
-package com.codebinars.a2048gameclone;
+package com.codebinars.a2048gameclone.engine;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
+import com.codebinars.a2048gameclone.R;
 import com.codebinars.a2048gameclone.sprites.Sprite;
 import com.codebinars.a2048gameclone.sprites.Tile;
 

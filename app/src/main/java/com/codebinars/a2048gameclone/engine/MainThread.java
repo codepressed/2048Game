@@ -1,4 +1,4 @@
-package com.codebinars.a2048gameclone;
+package com.codebinars.a2048gameclone.engine;
 
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;

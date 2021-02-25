@@ -17,6 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_USERNAME = "NAME";
     private static final String COLUMN_SCORE = "SCORE";
     private static final String COLUMN_DATETIME = "DATETIME";
+    private static final String COLUMN_DURATION = "DURATION";
 
 
 
@@ -26,7 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String createTableStatement = "CREATE TABLE " + SCORE_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_USERNAME + " TEXT, " + COLUMN_SCORE + " INT, " + COLUMN_DATETIME + " TEXT) ";
+        String createTableStatement = "CREATE TABLE " + SCORE_TABLE + " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_USERNAME + " TEXT, " + COLUMN_SCORE + " INT, " + COLUMN_DATETIME + " TEXT, " + COLUMN_DURATION + " INT) ";
         db.execSQL(createTableStatement);
     }
 
@@ -47,6 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_USERNAME, scoreModel.getUsername());
         cv.put(COLUMN_SCORE, scoreModel.getScore());
         cv.put(COLUMN_DATETIME, scoreModel.getDatetime());
+        cv.put(COLUMN_DURATION, scoreModel.getDuration());
         db.insert(SCORE_TABLE, null, cv);
     }
 
@@ -61,8 +63,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 int scoreId = cursor.getInt(0);
                 String username = cursor.getString(1);
                 Integer score = cursor.getInt(2);
-                String datatime = cursor.getString(3);
-                ScoreModel newScore = new ScoreModel(scoreId, username, score, datatime);
+                String datetime = cursor.getString(3);
+                Float duration = cursor.getFloat(4);
+                ScoreModel newScore = new ScoreModel(scoreId, username, score, datetime, duration);
                 getTop10.add(newScore);
             }
             while (cursor.moveToNext());
@@ -90,8 +93,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 int scoreId = cursor.getInt(0);
                 String username = cursor.getString(1);
                 Integer score = cursor.getInt(2);
-                String datatime = cursor.getString(3);
-                ScoreModel newScore = new ScoreModel(scoreId, username, score, datatime);
+                String datetime = cursor.getString(3);
+                Float duration = cursor.getFloat(4);
+                ScoreModel newScore = new ScoreModel(scoreId, username, score, datetime, duration);
                 getTop10ByUsername.add(newScore);
             }
             while (cursor.moveToNext());
@@ -119,14 +123,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * We search in DB the topScore
      * @return topScore
      */
-    public int topScore(){
+    public int getTopScore(){
         SQLiteDatabase db = this.getWritableDatabase();
-        int topScore;
+        Integer topScore;
         String queryTopScore = "SELECT MAX(" + COLUMN_SCORE + ") topScore FROM "+ SCORE_TABLE;
         Cursor cursor = db.rawQuery(queryTopScore, null);
         cursor.moveToFirst();
         topScore = cursor.getInt(0);
+        if (topScore == null){
+            return 20;
+        }
+        else{
         return topScore;
+        }
     }
 
     /**

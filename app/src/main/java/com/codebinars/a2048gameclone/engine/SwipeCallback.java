@@ -1,4 +1,4 @@
-package com.codebinars.a2048gameclone;
+package com.codebinars.a2048gameclone.engine;
 
 public interface SwipeCallback {
     void onSwipe(Direction direction);

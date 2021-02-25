@@ -1,4 +1,4 @@
-package com.codebinars.a2048gameclone;
+package com.codebinars.a2048gameclone.engine;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,17 +18,13 @@ import android.view.WindowMetrics;
 
 import androidx.annotation.NonNull;
 
+import com.codebinars.a2048gameclone.R;
 import com.codebinars.a2048gameclone.database.DatabaseHelper;
-import com.codebinars.a2048gameclone.database.ScoreModel;
 import com.codebinars.a2048gameclone.sprites.EndGame;
 import com.codebinars.a2048gameclone.sprites.Grid;
 import com.codebinars.a2048gameclone.sprites.Score;
 
-import java.util.List;
-
 public class GameManager extends SurfaceView implements SurfaceHolder.Callback, SwipeCallback, GameManagerCallback {
-
-    private static final String APP_NAME = "2048 plus";
 
     private MainThread thread;
     private Grid grid;
@@ -40,6 +36,7 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback, 
     private Bitmap restartButton;
     private int restartButtonX, restartButtonY, restartButtonSize;
     private DatabaseHelper databaseHelper;
+    private String username = "Nico Rueda";
 
     private SwipeListener swipe;
 
@@ -47,16 +44,17 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback, 
         super(context,attributeSet);
         setLongClickable(true);
         getHolder().addCallback(this);
-        swipe = new SwipeListener(getContext(), this);
 
+        swipe = new SwipeListener(getContext(), this);
         scWidth = getScreenWidth((Activity)context);
         scHeight = getScreenHeight((Activity)context);
         standardSize = (int) (scWidth*0.88)/4;
+        databaseHelper = new DatabaseHelper(getContext());
 
         grid = new Grid(getResources(),scWidth,scHeight,standardSize);
         tileManager = new TileManager(getResources(), standardSize, scWidth, scHeight, this);
         endgameSprite = new EndGame(getResources(), scWidth, scHeight);
-        score = new Score(getResources(), scWidth, scHeight, standardSize, getContext().getSharedPreferences(APP_NAME, Context.MODE_PRIVATE));
+        score = new Score(getResources(), scWidth, scHeight, standardSize, databaseHelper, username);
 
         restartButtonSize = (int) getResources().getDimension(R.dimen.restart_button_size);
         Bitmap bmpRestart = BitmapFactory.decodeResource(getResources(), R.drawable.restart);
@@ -102,7 +100,7 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback, 
     public void initGame() {
         endGame = false;
         tileManager.initGame();
-        score = new Score(getResources(), scWidth, scHeight, standardSize, getContext().getSharedPreferences(APP_NAME, Context.MODE_PRIVATE));
+        score = new Score(getResources(), scWidth, scHeight, standardSize, databaseHelper, username);
     }
 
     @Override
@@ -176,7 +174,10 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback, 
 
     @Override
     public void gameOver() {
+        if (endGame == false){
         endGame = true;
+        score.saveScore();
+        }
     }
 
     @Override

@@ -9,35 +9,49 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.codebinars.a2048gameclone.R;
+import com.codebinars.a2048gameclone.database.DatabaseHelper;
+import com.codebinars.a2048gameclone.database.ScoreModel;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class Score implements Sprite {
-
-    private static final String SCORE_PREF = "Score pref";
 
     private Resources resources;
     private int screenWidth, screenHeight, standardSize;
     private Bitmap bmpScore, bmpTopScore, bmpCopyright;
     private Bitmap bmpTopScoreBonus, bmp2048Bonus;
     private int score, topScore;
-    private SharedPreferences prefs;
+    private DatabaseHelper databaseHelper;
     private Paint paint;
     private boolean topScoreBonus = false;
     private boolean a2048Bonus = false;
+    private String username;
+    private long startTime;
+    private long currentTimeMillis;
+    private float currentTimeSeconds;
 
-    public Score(Resources resources, int screenWidth, int screenHeight, int standardSize, SharedPreferences prefs) {
+    //Time
+    private Date date;
+    private Calendar calendar;
+
+    public Score(Resources resources, int screenWidth, int screenHeight, int standardSize, DatabaseHelper databaseHelper, String username) {
         this.resources = resources;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.standardSize = standardSize;
-        this.prefs = prefs;
+        this.databaseHelper = databaseHelper;
+        this.username = username;
+        this.startTime = System.currentTimeMillis();
+        this.date = new Date();
+        this.calendar = Calendar.getInstance();
+        this.calendar.setTime(date);
 
-        topScore = prefs.getInt(SCORE_PREF, 0);
+        topScore = databaseHelper.getTopScore();
         int width = (int) resources.getDimension(R.dimen.score_label_width);
         int height = (int) resources.getDimension(R.dimen.score_label_height);
         int copyrightWidth = 1000;
         int copyrightHeight = 200;
-
-
 
         Bitmap sc = BitmapFactory.decodeResource(resources, R.drawable.score);
         bmpScore = Bitmap.createScaledBitmap(sc, width, height, false);
@@ -58,14 +72,17 @@ public class Score implements Sprite {
     public void draw(Canvas canvas) {
         canvas.drawBitmap(bmpScore, screenWidth / 4 - bmpScore.getWidth() / 2, bmpScore.getHeight(), null);
         canvas.drawBitmap(bmpTopScore, 3 * screenWidth / 4 - bmpTopScore.getWidth() / 2, bmpTopScore.getHeight(), null);
-        canvas.drawBitmap(bmpCopyright, 3 * screenWidth / 4 -  15 * bmpCopyright.getWidth() / 20, 10 * screenHeight / 12, null);
+        canvas.drawBitmap(bmpCopyright, 3 * screenWidth / 4 -  15 * bmpCopyright.getWidth() / 20, 20 * screenHeight / 23, null);
 
         int width1 = (int) paint.measureText(String.valueOf(score));
         int width2 = (int) paint.measureText(String.valueOf(topScore));
+        currentTimeMillis = System.currentTimeMillis() - startTime;
+        currentTimeSeconds = currentTimeMillis / 1000F;
+
         canvas.drawText(String.valueOf(score), screenWidth / 4 - width1 / 2, bmpScore.getHeight() * 4, paint);
         canvas.drawText(String.valueOf(topScore), 3 * screenWidth / 4 - width2 / 2, bmpTopScore.getHeight() * 4, paint);
-        canvas.drawText(("* USERNAME: Juan Gines *"),screenWidth / 12, (float) (screenHeight / 1.25), paint);
-        //canvas.drawText(("GAME DEVELOPED by Dani Apesteguia"),screenWidth / 8, (float) (screenHeight / 1.2), paint);
+        canvas.drawText(("USERNAME: " + username),screenWidth / 15, (float) (screenHeight / 1.25), paint);
+        canvas.drawText(("Time consumed: " + currentTimeSeconds),screenWidth / 15, (float) (screenHeight / 1.2), paint);
         if (topScoreBonus) {
             canvas.drawBitmap(bmpTopScoreBonus, screenWidth / 2 - 2 * standardSize, screenHeight / 2 - 2 * standardSize - 2 * bmpTopScoreBonus.getHeight(), null);
         }
@@ -89,9 +106,8 @@ public class Score implements Sprite {
      * Check if score can be in Top 10 Scores
      */
     private void checkTopScore() {
-        topScore = prefs.getInt(SCORE_PREF, 0);
+        topScore = databaseHelper.getTopScore();
         if (topScore < score) {
-            prefs.edit().putInt(SCORE_PREF, score).apply();
             topScore = score;
 
             int width = (int) resources.getDimension(R.dimen.score_bonus_width);
@@ -109,5 +125,14 @@ public class Score implements Sprite {
         Bitmap r2048bmp = BitmapFactory.decodeResource(resources, R.drawable.a2048);
         bmp2048Bonus = Bitmap.createScaledBitmap(r2048bmp, width, height, false);
 
+    }
+
+    public void saveScore(){
+        ScoreModel scoreModel = new ScoreModel();
+        scoreModel.setScore(this.score);
+        scoreModel.setUsername(this.username);
+        scoreModel.setDatetime(calendar.get(Calendar.DAY_OF_MONTH) + " - " + calendar.get(Calendar.MONTH) + " - " + calendar.get(Calendar.YEAR));
+        scoreModel.setDuration(currentTimeSeconds);
+        databaseHelper.addScore(scoreModel);
     }
 }

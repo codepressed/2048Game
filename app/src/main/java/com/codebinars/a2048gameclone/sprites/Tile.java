@@ -2,7 +2,7 @@ package com.codebinars.a2048gameclone.sprites;
 
 import android.graphics.Canvas;
 
-import com.codebinars.a2048gameclone.TileManagerCallback;
+import com.codebinars.a2048gameclone.engine.TileManagerCallback;
 
 import java.util.Random;
 

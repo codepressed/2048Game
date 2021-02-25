@@ -3,6 +3,8 @@ package com.codebinars.a2048gameclone;
 import android.app.Activity;
 import android.os.Bundle;
 
+import com.codebinars.a2048gameclone.database.DatabaseHelper;
+
 public class MainActivity extends Activity {
 
     @Override

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.codebinars.a2048gameclone.GameManager
+    <com.codebinars.a2048gameclone.engine.GameManager
         android:id="@+id/gameM"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -8,6 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.codebinars.a2048gameclone.database.DatabaseHelper;
 import com.codebinars.a2048gameclone.database.ScoreModel;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -42,15 +43,16 @@ public class ExampleInstrumentedTest {
     public void testAddingAndDisplayingDB(){
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         DatabaseHelper databaseHelper = new DatabaseHelper(appContext);
-         String name = "Eduardo Tequiero";
-         int userScore = 5;
-         String datetime = "03 20 4900";
-         ScoreModel scoreModel = new ScoreModel();
-         scoreModel.setUsername(name);
-         scoreModel.setScore(userScore);
-         scoreModel.setDatetime(datetime);
-         databaseHelper.addScore(scoreModel);
-         List<ScoreModel> scoreList;
-         scoreList = databaseHelper.getTop10();
+        String name = "Eduardo Tequiero";
+        int userScore = 12;
+        String datetime = "03 20 4900";
+        float duration = 3.342983F;
+        ScoreModel scoreModel = new ScoreModel();
+        scoreModel.setUsername(name);
+        scoreModel.setScore(userScore);
+        scoreModel.setDatetime(datetime);
+        scoreModel.setDuration(duration);
+        databaseHelper.addScore(scoreModel);
+        List<ScoreModel> scoreList;
     }
 }
