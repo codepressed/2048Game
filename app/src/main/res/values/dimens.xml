@@ -8,4 +8,6 @@
     <dimen name="score_bonus_width">130dp</dimen>
     <dimen name="score_bonus_height">20dp</dimen>
     <dimen name="restart_button_size">50dp</dimen>
+    <dimen name="list_score_horizontal_margin">16dp</dimen>
+    <dimen name="list_score_vertical_margin">16dp</dimen>
 </resources>
