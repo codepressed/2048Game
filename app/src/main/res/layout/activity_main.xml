@@ -21,12 +21,12 @@
         android:src="@drawable/gamelogoa4" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/playerUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Username"
+        android:text="Unknown"
         android:textAlignment="center" />
 
     <ImageButton

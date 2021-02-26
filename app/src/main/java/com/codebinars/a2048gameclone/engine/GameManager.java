@@ -2,11 +2,13 @@ package com.codebinars.a2048gameclone.engine;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Insets;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
@@ -36,7 +38,7 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback, 
     private Bitmap restartButton;
     private int restartButtonX, restartButtonY, restartButtonSize;
     private DatabaseHelper databaseHelper;
-    private String username = "Nico Rueda";
+    private String username = "Nico Roda";
     private Boolean scoreSaved = false;
 
     private SwipeListener swipe;
@@ -45,6 +47,11 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback, 
         super(context,attributeSet);
         setLongClickable(true);
         getHolder().addCallback(this);
+
+        //Get username
+        Activity activity = (Activity) context;
+        Bundle extras = activity.getIntent().getExtras();
+        username = extras.getString("Username_key");
 
         swipe = new SwipeListener(getContext(), this);
         scWidth = getScreenWidth((Activity)context);

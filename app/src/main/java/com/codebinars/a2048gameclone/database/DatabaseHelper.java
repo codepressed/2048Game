@@ -52,6 +52,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(SCORE_TABLE, null, cv);
     }
 
+    /**
+     * Get all scores in DB
+     * @return ArrayList
+     */
     public List<ScoreModel> getAllScores(){
         List<ScoreModel> getAllScores = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
@@ -77,6 +81,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return getAllScores;
     }
 
+    /**
+     * Find top 10 scores
+     * @return ArrayList10
+     */
     public List<ScoreModel> getTop10(){
         List<ScoreModel> getTop10 = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
@@ -110,7 +118,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<ScoreModel> getTop10ByUsername(String userTop){
         List<ScoreModel> getTop10ByUsername = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
-        String queryTop10ByUsername = "SELECT * FROM " + SCORE_TABLE + " WHERE "+ COLUMN_USERNAME + " = "+ userTop +" order by " + COLUMN_SCORE +" desc limit 10";
+        String queryTop10ByUsername = "SELECT * FROM " + SCORE_TABLE + " WHERE "+ COLUMN_USERNAME + " = '"+ userTop +"' order by " + COLUMN_SCORE +" desc limit 10";
         Cursor cursor = db.rawQuery(queryTop10ByUsername, null);
         if (cursor.moveToNext()) {
             do {

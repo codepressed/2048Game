@@ -43,7 +43,8 @@
         android:layout_marginStart="@dimen/list_score_horizontal_margin"
         android:layout_marginTop="148dp"
         android:layout_marginEnd="320dp"
-        android:background="@drawable/top10" />
+        android:background="@drawable/top10"
+        android:onClick="onClick"/>
 
     <EditText
         android:id="@+id/textusertop10"
@@ -56,10 +57,10 @@
         android:layout_marginStart="120dp"
         android:layout_marginTop="143dp"
         android:layout_marginEnd="215dp"
-        android:text="Example Username"
+        android:text="Example"
         android:textAlignment="center"
         android:textSize="12dp"
-        android:background="@android:color/transparent"/>
+        android:background="@android:color/transparent" />
 
     <ImageButton
         android:id="@+id/top10byuser"
@@ -72,7 +73,8 @@
         android:layout_marginStart="215dp"
         android:layout_marginTop="148dp"
         android:layout_marginEnd="120dp"
-        android:background="@drawable/top10byuser" />
+        android:background="@drawable/top10byuser"
+        android:onClick="onClick"/>
 
     <ImageButton
         android:id="@+id/deleteall"
@@ -85,7 +87,8 @@
         android:layout_marginStart="320dp"
         android:layout_marginTop="148dp"
         android:layout_marginEnd="@dimen/list_score_horizontal_margin"
-        android:background="@drawable/deleteall"/>
+        android:background="@drawable/deleteall"
+        android:onClick="onClick"/>
 
 
 </RelativeLayout>
