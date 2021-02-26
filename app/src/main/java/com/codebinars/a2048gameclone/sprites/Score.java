@@ -118,6 +118,9 @@ public class Score implements Sprite {
         }
     }
 
+    /**
+     * Once 2048 is Reached, show the win
+     */
     public void reached2048() {
         a2048Bonus = true;
         int width = (int) resources.getDimension(R.dimen.score_bonus_width);
@@ -127,10 +130,15 @@ public class Score implements Sprite {
 
     }
 
+    /**
+     * Method to save score details in a ScoreModel
+     * It's used on GameManager to save it on DB
+     */
     public void saveScore(){
         ScoreModel scoreModel = new ScoreModel();
         scoreModel.setScore(this.score);
         scoreModel.setUsername(this.username);
+        // I'm adding +1 to Month because Calendar starts from 0.
         scoreModel.setDatetime(calendar.get(Calendar.DAY_OF_MONTH) + " - " + calendar.get(Calendar.MONTH) + " - " + calendar.get(Calendar.YEAR));
         scoreModel.setDuration(currentTimeSeconds);
         databaseHelper.addScore(scoreModel);

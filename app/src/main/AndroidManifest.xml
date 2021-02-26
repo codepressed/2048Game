@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".scoresView.ScoreListRecycler" />
+        <activity android:name=".GameActivity" />
     </application>
 
 </manifest>

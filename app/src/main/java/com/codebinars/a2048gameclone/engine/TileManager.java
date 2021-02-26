@@ -32,7 +32,6 @@ public class TileManager implements TileManagerCallback, Sprite {
         this.screenHeight = screenHeight;
         this.callback = callback;
         initBitmaps();
-
         initGame();
     }
 

@@ -1,10 +1,10 @@
 package com.codebinars.a2048gameclone.scoresView;
 
+import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,7 +14,7 @@ import com.codebinars.a2048gameclone.database.ScoreModel;
 
 import java.util.ArrayList;
 
-public class ScoreListRecycler extends AppCompatActivity {
+public class ScoreListRecycler extends Activity {
     ArrayList<ScoreModel> listScores;
     RecyclerView recyclerViewScores;
     DatabaseHelper databaseHelper;

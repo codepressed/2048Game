@@ -52,6 +52,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(SCORE_TABLE, null, cv);
     }
 
+    public List<ScoreModel> getAllScores(){
+        List<ScoreModel> getAllScores = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String queryAllScores = "SELECT * FROM " + SCORE_TABLE + " order by " + COLUMN_SCORE +" desc";
+        Cursor cursor = db.rawQuery(queryAllScores, null);
+        if (cursor.moveToNext()) {
+            do {
+                int scoreId = cursor.getInt(0);
+                String username = cursor.getString(1);
+                Integer score = cursor.getInt(2);
+                String datetime = cursor.getString(3);
+                Float duration = cursor.getFloat(4);
+                ScoreModel newScore = new ScoreModel(scoreId, username, score, datetime, duration);
+                getAllScores.add(newScore);
+            }
+            while (cursor.moveToNext());
+        }
+        else{
+            //There aren't scores. No scores will be displayed
+        }
+        cursor.close();
+        db.close();
+        return getAllScores;
+    }
 
     public List<ScoreModel> getTop10(){
         List<ScoreModel> getTop10 = new ArrayList<>();

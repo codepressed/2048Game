@@ -1,15 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/list_score_vertical_margin"
+    android:paddingLeft="@dimen/list_score_horizontal_margin"
+    android:paddingRight="@dimen/list_score_horizontal_margin"
+    android:paddingTop="@dimen/list_score_vertical_margin"
+    android:orientation="vertical"
+    android:background="@color/bgColor"
     tools:context=".MainActivity">
 
-    <com.codebinars.a2048gameclone.engine.GameManager
-        android:id="@+id/gameM"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="386dp"
+        android:src="@drawable/gamelogoa4" />
+
+    <EditText
+        android:id="@+id/editTextTextPersonName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Username"
+        android:textAlignment="center" />
+
+    <ImageButton
+        android:id="@+id/btnPlayGame"
+        android:background="@drawable/buttonplaygame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Play a game"
+        android:layout_marginTop="10dp"
+        android:onClick="onClick"/>
+
+    <ImageButton
+        android:id="@+id/btnCheckScore"
+        android:background="@drawable/buttonscores"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Check score"
+        android:layout_marginTop="10dp"
+        android:onClick="onClick"/>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="173dp"
+        android:layout_height="54dp"
+        android:layout_gravity="right"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/borjalogo" />
+
+</LinearLayout>

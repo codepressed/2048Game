@@ -37,6 +37,7 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback, 
     private int restartButtonX, restartButtonY, restartButtonSize;
     private DatabaseHelper databaseHelper;
     private String username = "Nico Rueda";
+    private Boolean scoreSaved = false;
 
     private SwipeListener swipe;
 
@@ -101,6 +102,7 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback, 
         endGame = false;
         tileManager.initGame();
         score = new Score(getResources(), scWidth, scHeight, standardSize, databaseHelper, username);
+        scoreSaved = false;
     }
 
     @Override
@@ -174,9 +176,10 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback, 
 
     @Override
     public void gameOver() {
-        if (endGame == false){
         endGame = true;
-        score.saveScore();
+        if (!scoreSaved){
+            score.saveScore();
+            scoreSaved = true;
         }
     }
 
