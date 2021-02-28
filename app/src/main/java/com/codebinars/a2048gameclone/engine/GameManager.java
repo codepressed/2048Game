@@ -38,8 +38,8 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback, 
     private Bitmap restartButton;
     private int restartButtonX, restartButtonY, restartButtonSize;
     private DatabaseHelper databaseHelper;
-    private String username = "Nico Roda";
     private Boolean scoreSaved = false;
+    private String username;
 
     private SwipeListener swipe;
 

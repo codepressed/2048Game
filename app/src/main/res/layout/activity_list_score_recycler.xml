@@ -9,6 +9,114 @@
     android:background="@color/bgColor"
     tools:context=".scoresView.ScoreListRecycler">
 
+
+        <ImageView
+        android:id="@+id/leaderboardimg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="0dp"
+        android:src="@drawable/leaderboard" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="143dp"
+            android:orientation="horizontal"
+            >
+
+            <ImageButton
+                android:id="@+id/top10"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight=".25"
+                android:background="@drawable/top10"
+                android:onClick="onClick"/>
+
+            <EditText
+                android:id="@+id/textusertop10"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight=".25"
+                android:text="Username"
+                android:textAlignment="center"
+                android:textSize="12dp"
+                android:background="@android:color/transparent" />
+
+            <ImageButton
+                android:id="@+id/top10byuser"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight=".25"
+                android:background="@drawable/top10byuser"
+                android:onClick="onClick"/>
+
+            <ImageButton
+                android:id="@+id/resetFilters"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight=".25"
+                android:background="@drawable/deleteall"
+                android:onClick="onClick"/>
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="14dp"
+        android:layout_marginTop="180dp"
+        android:orientation="horizontal"
+        >
+
+        <ImageButton
+            android:id="@+id/sortByUsername"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight=".25"
+            android:background="@drawable/sortbyusername"
+            android:onClick="onClick"/>
+
+        <ImageButton
+            android:id="@+id/sortByScore"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight=".25"
+            android:background="@drawable/sortbyscore"
+            android:onClick="onClick"/>
+
+        <ImageButton
+            android:id="@+id/sortByDuration"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight=".25"
+            android:background="@drawable/sortbyduration"
+            android:onClick="onClick"/>
+
+        <ImageButton
+            android:id="@+id/sortByDatetime"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight=".25"
+            android:background="@drawable/sortbydate"
+            android:onClick="onClick"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="14dp"
+        android:layout_marginTop="194dp"
+        android:orientation="horizontal">
+        <Spinner
+            android:id="@+id/scoreSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".25">
+
+        </Spinner>
+
+
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerScores"
         android:layout_width="match_parent"
@@ -17,78 +125,12 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="166dp"
+        android:layout_marginTop="205dp"
         android:layout_marginEnd="0dp"
         android:paddingLeft="@dimen/list_score_horizontal_margin"
         android:paddingTop="@dimen/list_score_vertical_margin"
         android:paddingRight="@dimen/list_score_horizontal_margin"
         android:paddingBottom="@dimen/list_score_vertical_margin" />
-
-    <ImageView
-        android:id="@+id/leaderboardimg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="0dp"
-        android:src="@drawable/leaderboard" />
-
-    <ImageButton
-        android:id="@+id/top10"
-        android:layout_height="25dp"
-        android:layout_width="70dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-
-        android:layout_marginStart="@dimen/list_score_horizontal_margin"
-        android:layout_marginTop="148dp"
-        android:layout_marginEnd="320dp"
-        android:background="@drawable/top10"
-        android:onClick="onClick"/>
-
-    <EditText
-        android:id="@+id/textusertop10"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="143dp"
-        android:layout_marginEnd="215dp"
-        android:text="Example"
-        android:textAlignment="center"
-        android:textSize="12dp"
-        android:background="@android:color/transparent" />
-
-    <ImageButton
-        android:id="@+id/top10byuser"
-        android:layout_height="25dp"
-        android:layout_width="70dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-
-        android:layout_marginStart="215dp"
-        android:layout_marginTop="148dp"
-        android:layout_marginEnd="120dp"
-        android:background="@drawable/top10byuser"
-        android:onClick="onClick"/>
-
-    <ImageButton
-        android:id="@+id/deleteall"
-        android:layout_height="25dp"
-        android:layout_width="70dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-
-        android:layout_marginStart="320dp"
-        android:layout_marginTop="148dp"
-        android:layout_marginEnd="@dimen/list_score_horizontal_margin"
-        android:background="@drawable/deleteall"
-        android:onClick="onClick"/>
 
 
 </RelativeLayout>

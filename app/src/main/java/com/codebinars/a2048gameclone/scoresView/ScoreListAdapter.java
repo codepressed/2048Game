@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 
-public class ScoreListAdapter extends RecyclerView.Adapter<ScoresViewHolder> {
+public class ScoreListAdapter extends RecyclerView.Adapter<ScoresViewHolder>  {
 
-    ArrayList<ScoreModel> playersList;
+    public ArrayList<ScoreModel> playersList;
 
     public ScoreListAdapter(ArrayList<ScoreModel> playersList) {
         this.playersList = playersList;
@@ -46,6 +46,5 @@ public class ScoreListAdapter extends RecyclerView.Adapter<ScoresViewHolder> {
     public int getItemCount() {
         return playersList.size();
     }
-
 
 }

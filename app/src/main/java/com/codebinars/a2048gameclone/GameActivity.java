@@ -9,10 +9,6 @@ public class GameActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String username;
-        Bundle extras = getIntent().getExtras();
-        username = extras.getString("Username_key");
-
         setContentView(R.layout.activity_game);
     }
 }

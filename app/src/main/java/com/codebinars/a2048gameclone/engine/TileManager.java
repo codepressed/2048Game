@@ -19,6 +19,7 @@ public class TileManager implements TileManagerCallback, Sprite {
     private ArrayList<Integer> drawables = new ArrayList<>();
     private HashMap<Integer, Bitmap> tileBitmaps = new HashMap<>();
     private Tile[][] matrix = new Tile[4][4];
+    private Tile[][] backupMatrix = new Tile[4][4];
     private boolean moving = false;
     private ArrayList<Tile> movingTiles;
     private boolean toSpawn = false;
@@ -105,6 +106,10 @@ public class TileManager implements TileManagerCallback, Sprite {
             }
         }
     }
+
+
+
+
 
     /**
      * My algorithm to move and remove tiles

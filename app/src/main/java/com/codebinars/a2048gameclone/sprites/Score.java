@@ -135,12 +135,14 @@ public class Score implements Sprite {
      * It's used on GameManager to save it on DB
      */
     public void saveScore(){
-        ScoreModel scoreModel = new ScoreModel();
-        scoreModel.setScore(this.score);
-        scoreModel.setUsername(this.username);
-        // I'm adding +1 to Month because Calendar starts from 0.
-        scoreModel.setDatetime(calendar.get(Calendar.DAY_OF_MONTH) + " - " + calendar.get(Calendar.MONTH) + " - " + calendar.get(Calendar.YEAR));
-        scoreModel.setDuration(currentTimeSeconds);
-        databaseHelper.addScore(scoreModel);
+        if (score > 1) {
+            ScoreModel scoreModel = new ScoreModel();
+            scoreModel.setScore(this.score);
+            scoreModel.setUsername(this.username);
+            // I'm adding +1 to Month because Calendar starts from 0.
+            scoreModel.setDatetime(calendar.get(Calendar.DAY_OF_MONTH) + " - " + (calendar.get(Calendar.MONTH) + 1) + " - " + calendar.get(Calendar.YEAR));
+            scoreModel.setDuration(currentTimeSeconds);
+            databaseHelper.addScore(scoreModel);
+        }
     }
 }

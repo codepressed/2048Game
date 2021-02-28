@@ -16,9 +16,11 @@ public class ScoresViewHolder extends RecyclerView.ViewHolder{
      */
     public ScoresViewHolder(View itemView){
         super(itemView);
-        username = (TextView) itemView.findViewById(R.id.playerRecycler);
-        score = (TextView) itemView.findViewById(R.id.scoreRecycler);
-        datetime = (TextView) itemView.findViewById(R.id.dateRecycler);
-        duration = (TextView) itemView.findViewById(R.id.durationRecycler);
+        this.username = (TextView) itemView.findViewById(R.id.playerRecycler);
+        this.score = (TextView) itemView.findViewById(R.id.scoreRecycler);
+        this.datetime = (TextView) itemView.findViewById(R.id.dateRecycler);
+        this.duration = (TextView) itemView.findViewById(R.id.durationRecycler);
     }
+
+
 }
