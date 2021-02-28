@@ -1,6 +1,7 @@
 package com.codebinars.a2048gameclone.scoresView;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.codebinars.a2048gameclone.EditScoreActivity;
 import com.codebinars.a2048gameclone.R;
 import com.codebinars.a2048gameclone.database.DatabaseHelper;
 import com.codebinars.a2048gameclone.database.ScoreModel;
@@ -29,6 +31,7 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
     private ScoreListAdapter adapter;
     private EditText usertop10, filterScoreNumber;
     private Spinner spinnerScore;
+    private Intent myIntent;
     private boolean sortedByUsername = false;
     private boolean sortedByScore = false;
     private boolean sortedByDuration = false;
@@ -38,7 +41,6 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_score_recycler);
-
         databaseHelper = new DatabaseHelper(getApplicationContext());
         listScores = new ArrayList<>();
         recyclerViewScores = (RecyclerView) findViewById(R.id.recyclerScores);
@@ -55,7 +57,13 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
 
             @Override
             public void onEditClick(int position) {
-
+                myIntent = new Intent(ScoreListRecycler.this, EditScoreActivity.class);
+                myIntent.putExtra("Id_key", listScores.get(position).getId());
+                myIntent.putExtra("Score_key", listScores.get(position).getScore().toString());
+                myIntent.putExtra("Username_key", listScores.get(position).getUsername());
+                myIntent.putExtra("Date_key", listScores.get(position).getDatetime());
+                myIntent.putExtra("Duration_key", listScores.get(position).getDuration().toString());
+                startActivity(myIntent);
             }
         });
 

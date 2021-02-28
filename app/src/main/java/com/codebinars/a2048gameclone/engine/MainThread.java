@@ -6,15 +6,15 @@ import android.view.SurfaceHolder;
 public class MainThread extends Thread{
 
     private  SurfaceHolder surfaceHolder;
-    private GameManager gameManager;
+    private GameTask gameTask;
     private int targetFPS = 60;
     private Canvas canvas;
     private Boolean running;
 
-    public MainThread(SurfaceHolder surfaceHolder, GameManager gameManager){
+    public MainThread(SurfaceHolder surfaceHolder, GameTask gameTask){
         super();
         this.surfaceHolder = surfaceHolder;
-        this.gameManager = gameManager;
+        this.gameTask = gameTask;
     }
 
     public void setRunning(Boolean isRunning){
@@ -36,8 +36,8 @@ public class MainThread extends Thread{
             try{
                 canvas = surfaceHolder.lockCanvas();
                 synchronized (surfaceHolder){
-                    gameManager.update();
-                    gameManager.draw(canvas);
+                    gameTask.update();
+                    gameTask.draw(canvas);
                 }
             } catch (Exception e){
                 e.printStackTrace();

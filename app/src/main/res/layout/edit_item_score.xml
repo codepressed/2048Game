@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bgColor"
+    android:layout_margin="10dp"
+    android:padding="10dp">
+
+
+        <TextView
+            android:id="@+id/editScore"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:text="Score:"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/recycler_font_size"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editScoreCamp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_toEndOf="@+id/editScore"
+            android:text="69"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/recycler_font_size"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/editUsername"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/editScore"
+            android:text="Username:"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/recycler_font_size"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editUsernameCamp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_toEndOf="@+id/editUsername"
+            android:layout_below="@id/editScore"
+            android:text="500"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/recycler_font_size"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/editDate"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/editUsername"
+            android:text="Date:"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/recycler_font_size"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editDateCamp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_toEndOf="@+id/editDate"
+            android:layout_below="@+id/editUsername"
+            android:text="500"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/recycler_font_size"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/editDuration"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/editDate"
+            android:text="Duration:"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/recycler_font_size"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editDurationCamp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_toEndOf="@+id/editDuration"
+            android:layout_below="@+id/editDate"
+            android:text="500"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/recycler_font_size"
+            android:layout_marginLeft="10dp"/>
+
+        <View android:id="@+id/strut"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/editDuration"
+            android:layout_centerHorizontal="true"/>
+
+        <ImageView
+            android:id="@+id/savechanges"
+            android:layout_below="@id/editDuration"
+            android:layout_alignRight="@id/strut"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:onClick="onClick"
+            android:background="@drawable/save"/>
+
+        <ImageView
+            android:id="@+id/undochanges"
+            android:layout_below="@id/editDuration"
+            android:layout_alignLeft="@id/strut"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:onClick="onClick"
+            android:background="@drawable/notsave"/>
+
+
+
+
+
+</RelativeLayout>

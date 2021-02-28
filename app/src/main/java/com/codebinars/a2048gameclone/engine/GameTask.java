@@ -21,11 +21,11 @@ import androidx.annotation.NonNull;
 
 import com.codebinars.a2048gameclone.R;
 import com.codebinars.a2048gameclone.database.DatabaseHelper;
-import com.codebinars.a2048gameclone.sprites.EndGame;
-import com.codebinars.a2048gameclone.sprites.Grid;
-import com.codebinars.a2048gameclone.sprites.Score;
+import com.codebinars.a2048gameclone.engine.sprites.EndGame;
+import com.codebinars.a2048gameclone.engine.sprites.Grid;
+import com.codebinars.a2048gameclone.engine.sprites.Score;
 
-public class GameManager extends SurfaceView implements SurfaceHolder.Callback, SwipeCallback, GameManagerCallback {
+public class GameTask extends SurfaceView implements SurfaceHolder.Callback, SwipeCallback, GameTaskCallback {
 
     private MainThread thread;
     private Grid grid;
@@ -43,7 +43,7 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback, 
 
     private SwipeListener swipe;
 
-    public GameManager(Context context, AttributeSet attributeSet){
+    public GameTask(Context context, AttributeSet attributeSet){
         super(context,attributeSet);
         setLongClickable(true);
         getHolder().addCallback(this);

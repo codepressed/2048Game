@@ -178,12 +178,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public void updateScore(int id, String username, Integer score, String datetime, Float duration){
         SQLiteDatabase db = this.getWritableDatabase();
+
         String updateScoreByID = "UPDATE " + SCORE_TABLE
-                + " SET " + COLUMN_USERNAME + " = " + username + "," +
-                COLUMN_SCORE + " = " + score + "," +
-                COLUMN_DATETIME + " = " + datetime + "," +
-                COLUMN_DURATION + " = " + duration + "," +
+                + " SET " + COLUMN_USERNAME + " = '" + username + "' , " +
+                COLUMN_SCORE + " = " + score + ", " +
+                COLUMN_DATETIME + " = '" + datetime + "', " +
+                COLUMN_DURATION + " = " + duration +
                 " WHERE " + COLUMN_ID + " = " + id;
+
         db.execSQL(updateScoreByID);
     }
 

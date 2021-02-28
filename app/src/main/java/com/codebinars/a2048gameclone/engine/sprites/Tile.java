@@ -1,4 +1,4 @@
-package com.codebinars.a2048gameclone.sprites;
+package com.codebinars.a2048gameclone.engine.sprites;
 
 import android.graphics.Canvas;
 
@@ -76,8 +76,8 @@ public class Tile implements Sprite {
             else{
                 wasIncremented = false;
             }
-            callback.finishedMoving(this);
         }
+        callback.finishedMoving(this);
     }
 
     @Override

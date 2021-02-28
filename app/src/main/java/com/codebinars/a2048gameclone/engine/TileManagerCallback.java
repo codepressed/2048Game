@@ -2,7 +2,7 @@ package com.codebinars.a2048gameclone.engine;
 
 import android.graphics.Bitmap;
 
-import com.codebinars.a2048gameclone.sprites.Tile;
+import com.codebinars.a2048gameclone.engine.sprites.Tile;
 
 public interface TileManagerCallback {
     Bitmap getBitmap(int count);

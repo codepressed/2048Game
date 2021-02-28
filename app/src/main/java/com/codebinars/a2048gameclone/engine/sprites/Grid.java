@@ -1,4 +1,4 @@
-package com.codebinars.a2048gameclone.sprites;
+package com.codebinars.a2048gameclone.engine.sprites;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;

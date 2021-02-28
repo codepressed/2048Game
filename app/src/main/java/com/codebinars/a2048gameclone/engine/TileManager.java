@@ -6,8 +6,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
 import com.codebinars.a2048gameclone.R;
-import com.codebinars.a2048gameclone.sprites.Sprite;
-import com.codebinars.a2048gameclone.sprites.Tile;
+import com.codebinars.a2048gameclone.engine.sprites.Sprite;
+import com.codebinars.a2048gameclone.engine.sprites.Tile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,9 +24,9 @@ public class TileManager implements TileManagerCallback, Sprite {
     public ArrayList<Tile> movingTiles;
     private boolean toSpawn = false;
     private boolean endGame = false;
-    private GameManagerCallback callback;
+    private GameTaskCallback callback;
 
-    public TileManager(Resources resources, int standardSize, int screenWidth, int screenHeight, GameManagerCallback callback) {
+    public TileManager(Resources resources, int standardSize, int screenWidth, int screenHeight, GameTaskCallback callback) {
         this.resources = resources;
         this.standardSize = standardSize;
         this.screenWidth = screenWidth;
@@ -403,6 +403,7 @@ public class TileManager implements TileManagerCallback, Sprite {
      */
     private void spawn() {
         if (toSpawn) {
+            System.out.println("I'm spawning Something... uwu");
             toSpawn = false;
             Tile t = null;
             while (t == null) {

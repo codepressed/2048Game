@@ -1,6 +1,5 @@
-package com.codebinars.a2048gameclone.sprites;
+package com.codebinars.a2048gameclone.engine.sprites;
 
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -131,7 +130,7 @@ public class Score implements Sprite {
 
     /**
      * Method to save score details in a ScoreModel
-     * It's used on GameManager to save it on DB
+     * It's used on GameTask to save it on DB
      */
     public void saveScore(){
         if (score > 1) {
