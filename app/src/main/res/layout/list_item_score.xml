@@ -1,121 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="0dp"
+    android:layout_marginBottom="20dp"
+    app:cardCornerRadius="10dp"
+    app:cardBackgroundColor="@color/recyclerBg"
+    app:cardUseCompatPadding="true">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/linearLayout"
-        android:layout_marginBottom="10dp"
-
+        android:layout_height="match_parent"
         android:background="@color/recyclerBg"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Score "
-                android:textStyle="bold"
-                />
-
-            <TextView
-                android:id="@+id/scoreRecycler"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="500"
-                android:layout_marginLeft="10dp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Player:"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/playerRecycler"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Alfonso"
-                android:layout_marginLeft="10dp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Date:"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/dateRecycler"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="14/02/21"
-                android:layout_marginLeft="10dp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Duration:"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/durationRecycler"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="59 seconds"
-                android:layout_marginLeft="10dp"/>
-
-        </LinearLayout>
+        android:layout_margin="10dp">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/bgColor"
-            android:layout_below="@+id/idImagen"
-            android:layout_marginTop="11dp" />
+            android:id="@+id/textScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="Score:"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/recycler_font_size"
+            android:textStyle="bold" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/scoreRecycler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/textScore"
+            android:text="500"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/recycler_font_size"
+            android:layout_marginLeft="10dp"/>
 
-    <ImageView
-        android:id="@+id/imageDelete"
-        android:src="@drawable/remove"
-        android:layout_width="30dp"
-        android:layout_height="match_parent"
-        android:layout_alignBottom="@+id/linearLayout"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="20dp"
-        />
+        <TextView
+            android:id="@+id/textPlayer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/scoreRecycler"
+            android:text="Username:"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/recycler_font_size"
+            android:textStyle="bold" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/playerRecycler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/textPlayer"
+            android:layout_below="@id/scoreRecycler"
+            android:text="500"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/recycler_font_size"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/textDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textPlayer"
+            android:text="Date:"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/recycler_font_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/dateRecycler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/textDate"
+            android:layout_below="@+id/textPlayer"
+            android:text="500"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/recycler_font_size"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/textDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textDate"
+            android:text="Duration:"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/recycler_font_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/durationRecycler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/textDuration"
+            android:layout_below="@+id/textDate"
+            android:text="500"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/recycler_font_size"
+            android:layout_marginLeft="10dp"/>
+
+        <ImageView
+            android:id="@+id/imageEdit"
+            android:layout_width="25dp"
+            android:layout_height="50dp"
+            android:layout_toStartOf="@+id/imageDelete"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/edit" />
+
+        <ImageView
+            android:id="@+id/imageDelete"
+            android:layout_width="25dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/remove" />
+
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

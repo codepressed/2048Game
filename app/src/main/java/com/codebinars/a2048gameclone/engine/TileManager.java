@@ -21,7 +21,7 @@ public class TileManager implements TileManagerCallback, Sprite {
     private Tile[][] matrix = new Tile[4][4];
     private Tile[][] backupMatrix = new Tile[4][4];
     private boolean moving = false;
-    private ArrayList<Tile> movingTiles;
+    public ArrayList<Tile> movingTiles;
     private boolean toSpawn = false;
     private boolean endGame = false;
     private GameManagerCallback callback;
@@ -324,6 +324,7 @@ public class TileManager implements TileManagerCallback, Sprite {
         }
     }
 
+
     @Override
     public void finishedMoving(Tile t) {
         movingTiles.remove(t);
@@ -363,6 +364,23 @@ public class TileManager implements TileManagerCallback, Sprite {
         }
     }
 
+    public void backupMatrix() {
+        for (int i = 0; i < this.matrix.length; i++){
+            for (int j = 0; j < this.matrix.length; j++){
+                this.backupMatrix[i][j] = this.matrix[i][j];
+            }
+        }
+    }
+
+    public void restoreGrid() {
+        for (int i = 0; i < this.matrix.length; i++){
+            for (int j = 0; j < this.matrix.length; j++){
+                this.matrix[i][j] = this.backupMatrix[i][j];
+            }
+        }
+    }
+
+
     /**
      * Spawn a Number in random location.
      * If location has a value assigned in matrix, try again.
@@ -381,7 +399,6 @@ public class TileManager implements TileManagerCallback, Sprite {
             }
         }
     }
-
     @Override
     public void updateScore(int delta) {
         callback.updateScore(delta);
@@ -391,4 +408,6 @@ public class TileManager implements TileManagerCallback, Sprite {
     public void reached2048() {
         callback.reached2048();
     }
+
+
 }

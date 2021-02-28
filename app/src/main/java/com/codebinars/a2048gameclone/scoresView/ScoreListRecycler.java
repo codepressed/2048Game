@@ -27,7 +27,8 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
     private RecyclerView recyclerViewScores;
     private DatabaseHelper databaseHelper;
     private ScoreListAdapter adapter;
-    private EditText usertop10;
+    private EditText usertop10, filterScoreNumber;
+    private Spinner spinnerScore;
     private boolean sortedByUsername = false;
     private boolean sortedByScore = false;
     private boolean sortedByDuration = false;
@@ -46,12 +47,31 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
         adapter = new ScoreListAdapter(listScores);
         recyclerViewScores.setAdapter(adapter);
 
+        adapter.setOnItemclickListener(new OnItemClickListener() {
+            @Override
+            public void onDeleteClick(int position) {
+                removeItem(position);
+            }
+
+            @Override
+            public void onEditClick(int position) {
+
+            }
+        });
+
         //SCORE Filtering: Smaller than, equals to, bigger than
         Spinner scoreSpinner = findViewById(R.id.scoreSpinner);
         ArrayAdapter<CharSequence> scoreAdapter = ArrayAdapter.createFromResource(this, R.array.sortScoreValues, R.layout.support_simple_spinner_dropdown_item);
         scoreAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         scoreSpinner.setAdapter(scoreAdapter);
         scoreSpinner.setOnItemSelectedListener(this);
+    }
+
+    private void removeItem(int position) {
+        databaseHelper.deleteByID(listScores.get(position).getId());
+        listScores.remove(position);
+        adapter.notifyItemRemoved(position);
+
     }
 
     /**
@@ -117,6 +137,39 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
     }
 
     /**
+     * Filter ScoreArrayList by Score nº
+     */
+    public void filterByScore(String option, int filterScore){
+        System.out.println("Option: " + option + ", FilterScore: " + filterScore + ", ArraySize: " + listScores.size());
+        if (option.equals("Bigger than")){
+            for (int i = 0; i < listScores.size(); i++) {
+                if (listScores.get(i).getScore() <= filterScore){
+                    System.out.println(listScores.get(i).getUsername());
+                    listScores.remove(i--);
+                }
+            }
+        }
+        else if (option.equals("Smaller than")){
+            for (int i = 0; i < listScores.size(); i++) {
+                if (listScores.get(i).getScore() >= filterScore){
+                    System.out.println(listScores.get(i).getUsername());
+                    listScores.remove(i--);
+                }
+            }
+        }
+        else{
+            for (int i = 0; i < listScores.size(); i++) {
+                if (listScores.get(i).getScore() != filterScore){
+                    System.out.println(listScores.get(i).getUsername());
+                    listScores.remove(i--);
+                }
+            }
+        }
+        adapter.playersList = listScores;
+        recyclerViewScores.setAdapter(adapter);
+    }
+
+    /**
      * Buttons on RecyclerView layout
      * @param view
      */
@@ -135,7 +188,16 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
                 recyclerViewScores.setAdapter(adapter);
                 break;
             case R.id.resetFilters:
+                checkScoreList();
+                adapter.playersList = listScores;
+                recyclerViewScores.setAdapter(adapter);
                 break;
+            case R.id.filterButton:
+                filterScoreNumber = findViewById(R.id.scoreFilter);
+                int scoreForFilter = Integer.parseInt(filterScoreNumber.getText().toString());
+                spinnerScore = findViewById(R.id.scoreSpinner);
+                String scoreOperator = spinnerScore.getSelectedItem().toString();
+                filterByScore(scoreOperator, scoreForFilter);
             //case R.id.deleteItem:
             //    System.out.println("Gmorning");
             case R.id.sortByUsername:
@@ -154,7 +216,6 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
 
         }
     }
-
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

@@ -17,7 +17,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //DatabaseHelper databaseHelper = new DatabaseHelper(this);
     }
 
     public void onClick(View view) {

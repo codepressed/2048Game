@@ -35,11 +35,12 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback, 
     private boolean endGame = false;
     private EndGame endgameSprite;
     private Score score;
-    private Bitmap restartButton;
-    private int restartButtonX, restartButtonY, restartButtonSize;
+    private Bitmap restartButton, undomovementButton, bmpCopyright;
+    private int restartButtonX, restartButtonY, undoMovementX, undoMovementY;
     private DatabaseHelper databaseHelper;
     private Boolean scoreSaved = false;
     private String username;
+    private int buttonHeight, buttonWidth;
 
     private SwipeListener swipe;
 
@@ -64,11 +65,23 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback, 
         endgameSprite = new EndGame(getResources(), scWidth, scHeight);
         score = new Score(getResources(), scWidth, scHeight, standardSize, databaseHelper, username);
 
-        restartButtonSize = (int) getResources().getDimension(R.dimen.restart_button_size);
-        Bitmap bmpRestart = BitmapFactory.decodeResource(getResources(), R.drawable.restart);
-        restartButton = Bitmap.createScaledBitmap(bmpRestart, restartButtonSize, restartButtonSize, false);
-        restartButtonX = scWidth / 2 + 2 * standardSize - restartButtonSize;
-        restartButtonY = scHeight / 2 - 2 * standardSize - 3 * restartButtonSize / 2;
+        buttonWidth = (int) getResources().getDimension(R.dimen.button_width);
+        buttonHeight = (int) getResources().getDimension(R.dimen.button_height);
+        Bitmap bmpRestart = BitmapFactory.decodeResource(getResources(), R.drawable.restartgame);
+        restartButton = Bitmap.createScaledBitmap(bmpRestart, buttonWidth, buttonHeight, false);
+        restartButtonX = scWidth / 2 + 2 * standardSize - buttonWidth;
+        restartButtonY = scHeight / 2 - 2 * standardSize - 3 * buttonHeight / 2;
+
+
+        Bitmap bmpUndoMovement = BitmapFactory.decodeResource(getResources(), R.drawable.undomovement);
+        undomovementButton = Bitmap.createScaledBitmap(bmpUndoMovement, buttonWidth, buttonHeight, false);
+        undoMovementX = scWidth / 2 + 2 * standardSize - buttonWidth;
+        undoMovementY = scHeight / 2 - 2 * standardSize - 6 * buttonHeight / 2;
+
+        int copyrightWidth = 1000;
+        int copyrightHeight = 200;
+        Bitmap copyright = BitmapFactory.decodeResource(getResources(), R.drawable.copyright);
+        bmpCopyright = Bitmap.createScaledBitmap(copyright, copyrightWidth, copyrightHeight, false);
 
     }
     /**
@@ -152,6 +165,8 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback, 
         tileManager.draw(canvas);
         score.draw(canvas);
         canvas.drawBitmap(restartButton, restartButtonX, restartButtonY, null);
+        canvas.drawBitmap(undomovementButton, undoMovementX, undoMovementY, null);
+        canvas.drawBitmap(bmpCopyright, 3 * scWidth / 4 -  15 * bmpCopyright.getWidth() / 20, 20 * scHeight / 23, null);
         if (endGame) {
             endgameSprite.draw(canvas);
             endGame = false;
@@ -167,17 +182,30 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback, 
         } else {
             float eventX = event.getAxisValue(MotionEvent.AXIS_X);
             float eventY = event.getAxisValue(MotionEvent.AXIS_Y);
-            if (event.getAction() == MotionEvent.ACTION_DOWN && eventX > restartButtonX && eventX < restartButtonX + restartButtonSize &&
-                    eventY > restartButtonY && eventY < restartButtonY + restartButtonSize) {
+            //Check if RESTARD GAME was pressed
+            if (event.getAction() == MotionEvent.ACTION_DOWN && eventX > restartButtonX && eventX < restartButtonX + buttonWidth &&
+                    eventY > restartButtonY && eventY < restartButtonY + buttonHeight) {
                 initGame();
+            }
+            //Check if UNDO MOVEMENT was pressed
+            if(event.getAction() == MotionEvent.ACTION_DOWN && eventX > undoMovementX && eventX < undoMovementX + buttonWidth &&
+                    eventY > undoMovementY && eventY < undoMovementY + buttonHeight){
+                restoreBackup();
             }
             swipe.onTouchEvent(event);
         }
         return super.onTouchEvent(event);
     }
 
+    private void restoreBackup() {
+        score.restoreScore();
+        tileManager.restoreGrid();
+    }
+
     @Override
     public void onSwipe(Direction direction) {
+        score.setBackupScore();
+        tileManager.backupMatrix();
         tileManager.onSwipe(direction);
     }
 

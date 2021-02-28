@@ -19,9 +19,9 @@ public class Score implements Sprite {
 
     private Resources resources;
     private int screenWidth, screenHeight, standardSize;
-    private Bitmap bmpScore, bmpTopScore, bmpCopyright;
+    private Bitmap bmpScore, bmpTopScore, bmpUsertime;
     private Bitmap bmpTopScoreBonus, bmp2048Bonus;
-    private int score, topScore;
+    private int score, topScore, backupScore;
     private DatabaseHelper databaseHelper;
     private Paint paint;
     private boolean topScoreBonus = false;
@@ -50,8 +50,6 @@ public class Score implements Sprite {
         topScore = databaseHelper.getTopScore();
         int width = (int) resources.getDimension(R.dimen.score_label_width);
         int height = (int) resources.getDimension(R.dimen.score_label_height);
-        int copyrightWidth = 1000;
-        int copyrightHeight = 200;
 
         Bitmap sc = BitmapFactory.decodeResource(resources, R.drawable.score);
         bmpScore = Bitmap.createScaledBitmap(sc, width, height, false);
@@ -59,8 +57,8 @@ public class Score implements Sprite {
         Bitmap tsc = BitmapFactory.decodeResource(resources, R.drawable.topscore);
         bmpTopScore = Bitmap.createScaledBitmap(tsc, width, height, false);
 
-        Bitmap copyright = BitmapFactory.decodeResource(resources, R.drawable.copyright);
-        bmpCopyright = Bitmap.createScaledBitmap(copyright, copyrightWidth, copyrightHeight, false);
+        Bitmap ut = BitmapFactory.decodeResource(resources, R.drawable.usertimetable);
+        bmpUsertime = Bitmap.createScaledBitmap(ut, (int) resources.getDimension(R.dimen.user_and_time_width), (int) resources.getDimension(R.dimen.user_and_time_height), false);
 
         paint = new Paint();
         paint.setColor(Color.BLACK);
@@ -72,17 +70,18 @@ public class Score implements Sprite {
     public void draw(Canvas canvas) {
         canvas.drawBitmap(bmpScore, screenWidth / 4 - bmpScore.getWidth() / 2, bmpScore.getHeight(), null);
         canvas.drawBitmap(bmpTopScore, 3 * screenWidth / 4 - bmpTopScore.getWidth() / 2, bmpTopScore.getHeight(), null);
-        canvas.drawBitmap(bmpCopyright, 3 * screenWidth / 4 -  15 * bmpCopyright.getWidth() / 20, 20 * screenHeight / 23, null);
+        canvas.drawBitmap(bmpUsertime, screenWidth / 2 - bmpUsertime.getWidth()/2, (float) (screenHeight / 1.35), null);
 
         int width1 = (int) paint.measureText(String.valueOf(score));
         int width2 = (int) paint.measureText(String.valueOf(topScore));
+
         currentTimeMillis = System.currentTimeMillis() - startTime;
         currentTimeSeconds = currentTimeMillis / 1000F;
 
         canvas.drawText(String.valueOf(score), screenWidth / 4 - width1 / 2, bmpScore.getHeight() * 4, paint);
         canvas.drawText(String.valueOf(topScore), 3 * screenWidth / 4 - width2 / 2, bmpTopScore.getHeight() * 4, paint);
-        canvas.drawText(("USERNAME: " + username),screenWidth / 15, (float) (screenHeight / 1.25), paint);
-        canvas.drawText(("Time consumed: " + currentTimeSeconds),screenWidth / 15, (float) (screenHeight / 1.2), paint);
+        canvas.drawText((username), (float) (screenWidth / 3.4), (float) (screenHeight / 1.29), paint);
+        canvas.drawText(String.valueOf((currentTimeSeconds)),(float) (screenWidth / 2.5), (float) (screenHeight / 1.215), paint);
         if (topScoreBonus) {
             canvas.drawBitmap(bmpTopScoreBonus, screenWidth / 2 - 2 * standardSize, screenHeight / 2 - 2 * standardSize - 2 * bmpTopScoreBonus.getHeight(), null);
         }
@@ -144,5 +143,19 @@ public class Score implements Sprite {
             scoreModel.setDuration(currentTimeSeconds);
             databaseHelper.addScore(scoreModel);
         }
+    }
+
+    /**
+     * Save a BackUp of the score
+     */
+    public void setBackupScore(){
+        this.backupScore = score;
+    }
+
+    /**
+     * Undo score changes of last movement
+     */
+    public void restoreScore(){
+        this.score = backupScore;
     }
 }

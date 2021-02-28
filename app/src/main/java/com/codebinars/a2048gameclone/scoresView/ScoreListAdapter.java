@@ -21,6 +21,12 @@ import java.util.Locale;
 public class ScoreListAdapter extends RecyclerView.Adapter<ScoresViewHolder>  {
 
     public ArrayList<ScoreModel> playersList;
+    public OnItemClickListener itemListener;
+
+
+    public void setOnItemclickListener(OnItemClickListener listener){
+        itemListener = listener;
+    }
 
     public ScoreListAdapter(ArrayList<ScoreModel> playersList) {
         this.playersList = playersList;
@@ -30,7 +36,8 @@ public class ScoreListAdapter extends RecyclerView.Adapter<ScoresViewHolder>  {
     @Override
     public ScoresViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_score,null,false);
-        return new ScoresViewHolder(view);
+        ScoresViewHolder sch = new ScoresViewHolder(view, itemListener);
+        return sch;
     }
 
     @Override
@@ -46,5 +53,6 @@ public class ScoreListAdapter extends RecyclerView.Adapter<ScoresViewHolder>  {
     public int getItemCount() {
         return playersList.size();
     }
+
 
 }

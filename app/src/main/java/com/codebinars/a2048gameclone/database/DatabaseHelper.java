@@ -148,7 +148,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteByID(Integer id){
         SQLiteDatabase db = this.getWritableDatabase();
         String queryDeleteByID = "DELETE FROM " + SCORE_TABLE + " WHERE " + COLUMN_ID + " = " + id;
-        db.rawQuery(queryDeleteByID, null);
+        db.execSQL(queryDeleteByID);
+        db.close();
+        System.out.println("DELETE OF THE FOLLOWING ID WAS A SUCCESS: "+id);
     }
 
     /**
@@ -169,6 +171,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return topScore;
         }
     }
+
+    /*
+    public List<ScoreModel> filterByScore(String option, int scoreValue){
+        List<ScoreModel> filterByScore = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String operator = "";
+        switch (option) {
+            case "Greater than":
+                operator = " > ";
+                break;
+            case "Equals to":
+                operator = " = ";
+                break;
+            case "Smaller than":
+                operator = " < ";
+                break;
+        }
+        String queryFilterByScore = "SELECT FROM " + SCORE_TABLE + " WHERE " + COLUMN_SCORE + operator + scoreValue;
+        Cursor cursor = db.rawQuery(queryFilterByScore, null);
+        if (cursor.moveToNext()) {
+            do {
+                int scoreId = cursor.getInt(0);
+                String username = cursor.getString(1);
+                Integer score = cursor.getInt(2);
+                String datetime = cursor.getString(3);
+                Float duration = cursor.getFloat(4);
+                ScoreModel newScore = new ScoreModel(scoreId, username, score, datetime, duration);
+                filterByScore.add(newScore);
+            }
+            while (cursor.moveToNext());
+        }
+        else{
+            //There aren't scores. No scores will be displayed
+        }
+        cursor.close();
+        db.close();
+        return filterByScore;
+        }
+
+    */
+
 
     /**
      * Method to clean the DB

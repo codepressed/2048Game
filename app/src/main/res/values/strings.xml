@@ -2,8 +2,8 @@
     <string name="app_name">2048GameClone</string>
 
     <string-array name="sortScoreValues">
-        <item>Smaller than</item>
-        <item>Equals to</item>
         <item>Bigger than</item>
+        <item>Equals to</item>
+        <item>Smaller than</item>
     </string-array>
 </resources>

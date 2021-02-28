@@ -25,11 +25,27 @@
             >
 
             <ImageButton
+                android:id="@+id/resetFilters"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight=".25"
+                android:background="@drawable/showall"
+                android:onClick="onClick"/>
+
+            <ImageButton
                 android:id="@+id/top10"
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 android:layout_weight=".25"
                 android:background="@drawable/top10"
+                android:onClick="onClick"/>
+
+            <ImageButton
+                android:id="@+id/top10byuser"
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight=".25"
+                android:background="@drawable/top10byuser"
                 android:onClick="onClick"/>
 
             <EditText
@@ -42,28 +58,47 @@
                 android:textSize="12dp"
                 android:background="@android:color/transparent" />
 
-            <ImageButton
-                android:id="@+id/top10byuser"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight=".25"
-                android:background="@drawable/top10byuser"
-                android:onClick="onClick"/>
-
-            <ImageButton
-                android:id="@+id/resetFilters"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_weight=".25"
-                android:background="@drawable/deleteall"
-                android:onClick="onClick"/>
 
         </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="14dp"
+        android:layout_height="25dp"
         android:layout_marginTop="180dp"
+        android:orientation="horizontal"
+        android:background="@color/recyclerBg">
+        <Spinner
+            android:id="@+id/scoreSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".33"
+            android:text ="8dp">
+        </Spinner>
+
+        <EditText
+            android:id="@+id/scoreFilter"
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight=".33"
+            android:text="0"
+            android:textAlignment="center"
+            android:textSize="12dp"
+            android:background="@android:color/transparent" />
+
+        <ImageButton
+            android:id="@+id/filterButton"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight=".33"
+            android:background="@drawable/filterscore"
+            android:onClick="onClick"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="14dp"
+        android:layout_marginTop="207dp"
         android:orientation="horizontal"
         >
 
@@ -101,22 +136,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="14dp"
-        android:layout_marginTop="194dp"
-        android:orientation="horizontal">
-        <Spinner
-            android:id="@+id/scoreSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight=".25">
-
-        </Spinner>
-
-
-    </LinearLayout>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerScores"
         android:layout_width="match_parent"
@@ -125,10 +144,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="205dp"
+        android:layout_marginTop="220dp"
         android:layout_marginEnd="0dp"
         android:paddingLeft="@dimen/list_score_horizontal_margin"
-        android:paddingTop="@dimen/list_score_vertical_margin"
         android:paddingRight="@dimen/list_score_horizontal_margin"
         android:paddingBottom="@dimen/list_score_vertical_margin" />
 
