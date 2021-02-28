@@ -63,6 +63,7 @@ public class TileManager implements TileManagerCallback, Sprite {
 
     public void initGame() {
         matrix = new Tile[4][4];
+        backupMatrix = new Tile[4][4];
         movingTiles = new ArrayList<>();
 
         for (int i = 0; i < 2; i++) {
@@ -112,10 +113,11 @@ public class TileManager implements TileManagerCallback, Sprite {
 
 
     /**
-     * My algorithm to move and remove tiles
+     * Algorithm to move and remove tiles
      * @param direction to determine the case
      */
     public void onSwipe(SwipeCallback.Direction direction) {
+        backupMatrix();
         if (!moving) {
             Tile[][] newMatrix = new Tile[4][4];
             switch (direction) {
@@ -364,18 +366,32 @@ public class TileManager implements TileManagerCallback, Sprite {
         }
     }
 
+    /**
+     * Save a copy of matrix before movement
+     */
     public void backupMatrix() {
-        for (int i = 0; i < this.matrix.length; i++){
-            for (int j = 0; j < this.matrix.length; j++){
-                this.backupMatrix[i][j] = this.matrix[i][j];
+        for (int i = 0; i < matrix.length; i++){
+            for (int j = 0; j < matrix[0].length; j++){
+                backupMatrix[i][j] = matrix[i][j];
             }
         }
     }
 
-    public void restoreGrid() {
-        for (int i = 0; i < this.matrix.length; i++){
-            for (int j = 0; j < this.matrix.length; j++){
-                this.matrix[i][j] = this.backupMatrix[i][j];
+    /**
+     * Restore matrix to State before movement
+     */
+    public void restoreMatrix() {
+        for (int i = 0; i < matrix.length; i++){
+            for (int j = 0; j < matrix[0].length; j++){
+                matrix[i][j] = backupMatrix[i][j];
+                Tile t = matrix[i][j];
+                if(t != null){
+                    if (t.isWasIncremented()){ //¿Was it incremented after moving?
+                        t.setCount(t.getCount()/2);
+                    }
+                    movingTiles.add(t);
+                    t.move(i,j);
+                }
             }
         }
     }

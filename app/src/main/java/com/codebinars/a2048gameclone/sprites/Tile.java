@@ -14,8 +14,9 @@ public class Tile implements Sprite {
     private int currentX, currentY;
     private int destX, destY;
     private boolean moving = false;
-    private int speed = 100;
+    private int speed = 75;
     private boolean increment = false;
+    private boolean wasIncremented;
 
     public Tile(int standardSize, int screenWidth, int screenHeight, TileManagerCallback callback, int matrixX, int matrixY) {
         this.screenWidth = screenWidth;
@@ -65,11 +66,15 @@ public class Tile implements Sprite {
             if (increment) {
                 count++;
                 increment = false;
+                wasIncremented = true;
                 int amount = (int) Math.pow(2, count);
                 callback.updateScore(amount);
                 if (count == 11) {
                     callback.reached2048();
                 }
+            }
+            else{
+                wasIncremented = false;
             }
             callback.finishedMoving(this);
         }
@@ -104,5 +109,17 @@ public class Tile implements Sprite {
                 currentY -= speed;
             }
         }
+    }
+
+    public boolean isWasIncremented() {
+        return wasIncremented;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

@@ -2,7 +2,6 @@ package com.codebinars.a2048gameclone.engine;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -199,13 +198,12 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback, 
 
     private void restoreBackup() {
         score.restoreScore();
-        tileManager.restoreGrid();
+        tileManager.restoreMatrix();
     }
 
     @Override
     public void onSwipe(Direction direction) {
         score.setBackupScore();
-        tileManager.backupMatrix();
         tileManager.onSwipe(direction);
     }
 

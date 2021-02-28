@@ -51,10 +51,10 @@ public class Score implements Sprite {
         int width = (int) resources.getDimension(R.dimen.score_label_width);
         int height = (int) resources.getDimension(R.dimen.score_label_height);
 
-        Bitmap sc = BitmapFactory.decodeResource(resources, R.drawable.score);
+        Bitmap sc = BitmapFactory.decodeResource(resources, R.drawable.scoresquare);
         bmpScore = Bitmap.createScaledBitmap(sc, width, height, false);
 
-        Bitmap tsc = BitmapFactory.decodeResource(resources, R.drawable.topscore);
+        Bitmap tsc = BitmapFactory.decodeResource(resources, R.drawable.topscoresquare);
         bmpTopScore = Bitmap.createScaledBitmap(tsc, width, height, false);
 
         Bitmap ut = BitmapFactory.decodeResource(resources, R.drawable.usertimetable);
@@ -68,8 +68,8 @@ public class Score implements Sprite {
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(bmpScore, screenWidth / 4 - bmpScore.getWidth() / 2, bmpScore.getHeight(), null);
-        canvas.drawBitmap(bmpTopScore, 3 * screenWidth / 4 - bmpTopScore.getWidth() / 2, bmpTopScore.getHeight(), null);
+        canvas.drawBitmap(bmpScore, screenWidth / 4 - bmpScore.getWidth() / 2, bmpScore.getHeight()/9, null);
+        canvas.drawBitmap(bmpTopScore, (float) (3.1 * screenWidth / 4 - bmpTopScore.getWidth() / 2), bmpTopScore.getHeight()/9, null);
         canvas.drawBitmap(bmpUsertime, screenWidth / 2 - bmpUsertime.getWidth()/2, (float) (screenHeight / 1.35), null);
 
         int width1 = (int) paint.measureText(String.valueOf(score));
@@ -78,8 +78,8 @@ public class Score implements Sprite {
         currentTimeMillis = System.currentTimeMillis() - startTime;
         currentTimeSeconds = currentTimeMillis / 1000F;
 
-        canvas.drawText(String.valueOf(score), screenWidth / 4 - width1 / 2, bmpScore.getHeight() * 4, paint);
-        canvas.drawText(String.valueOf(topScore), 3 * screenWidth / 4 - width2 / 2, bmpTopScore.getHeight() * 4, paint);
+        canvas.drawText(String.valueOf(score), screenWidth / 4 - width1 / 2, bmpScore.getHeight(), paint);
+        canvas.drawText(String.valueOf(topScore), 3 * screenWidth / 4 - width2 / 2, bmpTopScore.getHeight(), paint);
         canvas.drawText((username), (float) (screenWidth / 3.4), (float) (screenHeight / 1.29), paint);
         canvas.drawText(String.valueOf((currentTimeSeconds)),(float) (screenWidth / 2.5), (float) (screenHeight / 1.215), paint);
         if (topScoreBonus) {

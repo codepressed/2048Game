@@ -172,6 +172,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+
+    /**
+     * Update an item of DB
+     */
+    public void updateScore(int id, String username, Integer score, String datetime, Float duration){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String updateScoreByID = "UPDATE " + SCORE_TABLE
+                + " SET " + COLUMN_USERNAME + " = " + username + "," +
+                COLUMN_SCORE + " = " + score + "," +
+                COLUMN_DATETIME + " = " + datetime + "," +
+                COLUMN_DURATION + " = " + duration + "," +
+                " WHERE " + COLUMN_ID + " = " + id;
+        db.execSQL(updateScoreByID);
+    }
+
+    /**
+     * Clean the DB. CARE !!
+     */
+    public void deleteAllData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String deleteAllQuery = "DELETE FROM "+ SCORE_TABLE;
+        db.execSQL(deleteAllQuery);
+    }
+
     /*
     public List<ScoreModel> filterByScore(String option, int scoreValue){
         List<ScoreModel> filterByScore = new ArrayList<>();
@@ -212,15 +236,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     */
 
-
-    /**
-     * Method to clean the DB
-     */
-    public void deleteAllData(){
-        SQLiteDatabase db = this.getWritableDatabase();
-        String deleteAllQuery = "DELETE FROM "+ SCORE_TABLE;
-        db.execSQL(deleteAllQuery);
-    }
 
 }
 
