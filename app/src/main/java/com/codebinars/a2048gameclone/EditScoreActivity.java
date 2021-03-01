@@ -5,15 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.NumberPicker;
-
 import androidx.annotation.Nullable;
-
 import com.codebinars.a2048gameclone.database.DatabaseHelper;
-import com.codebinars.a2048gameclone.database.ScoreModel;
 import com.codebinars.a2048gameclone.scoresView.ScoreListRecycler;
-
-import java.util.ArrayList;
 
 public class EditScoreActivity extends Activity {
     private DatabaseHelper databaseHelper;
@@ -57,6 +51,7 @@ public class EditScoreActivity extends Activity {
                 break;
         }
         startActivity(myIntent);
+        finish();
     }
 }
 

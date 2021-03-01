@@ -5,7 +5,7 @@ import android.view.SurfaceHolder;
 
 public class MainThread extends Thread{
 
-    private  SurfaceHolder surfaceHolder;
+    private SurfaceHolder surfaceHolder;
     private GameTask gameTask;
     private int targetFPS = 60;
     private Canvas canvas;

@@ -43,7 +43,7 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
         setContentView(R.layout.activity_list_score_recycler);
         databaseHelper = new DatabaseHelper(getApplicationContext());
         listScores = new ArrayList<>();
-        recyclerViewScores = (RecyclerView) findViewById(R.id.recyclerScores);
+        recyclerViewScores = findViewById(R.id.recyclerScores);
         recyclerViewScores.setLayoutManager(new LinearLayoutManager(this));
         checkScoreList();
         adapter = new ScoreListAdapter(listScores);
@@ -64,6 +64,7 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
                 myIntent.putExtra("Date_key", listScores.get(position).getDatetime());
                 myIntent.putExtra("Duration_key", listScores.get(position).getDuration().toString());
                 startActivity(myIntent);
+                finish();
             }
         });
 
@@ -227,9 +228,7 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String text = parent.getItemAtPosition(position).toString();
-        //Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
-    }
+                   }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {

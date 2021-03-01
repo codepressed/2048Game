@@ -11,7 +11,7 @@ import com.codebinars.a2048gameclone.scoresView.ScoreListRecycler;
 
 public class MainActivity extends Activity {
 
-    EditText playerusername;
+    private EditText playerusername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
                 myIntent.putExtra("Username_key", username);
                 break;
             case R.id.btnCheckScore:
-                myIntent = new Intent(MainActivity.this, ScoreListRecycler.class);
+                myIntent = new Intent(this, ScoreListRecycler.class);
                 break;
         }
         if(myIntent != null){

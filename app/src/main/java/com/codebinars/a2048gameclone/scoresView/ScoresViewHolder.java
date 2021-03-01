@@ -1,8 +1,6 @@
 package com.codebinars.a2048gameclone.scoresView;
 
-import android.text.InputType;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,33 +21,27 @@ public class ScoresViewHolder extends RecyclerView.ViewHolder{
      */
     public ScoresViewHolder(View itemView, final OnItemClickListener listener){
         super(itemView);
-        this.username = (TextView) itemView.findViewById(R.id.playerRecycler);
-        this.score = (TextView) itemView.findViewById(R.id.scoreRecycler);
-        this.datetime = (TextView) itemView.findViewById(R.id.dateRecycler);
-        this.duration = (TextView) itemView.findViewById(R.id.durationRecycler);
-        this.deleteImage = (ImageView) itemView.findViewById(R.id.imageDelete);
-        this.editImage = (ImageView) itemView.findViewById(R.id.imageEdit);
+        this.username = itemView.findViewById(R.id.playerRecycler);
+        this.score = itemView.findViewById(R.id.scoreRecycler);
+        this.datetime = itemView.findViewById(R.id.dateRecycler);
+        this.duration = itemView.findViewById(R.id.durationRecycler);
+        this.deleteImage = itemView.findViewById(R.id.imageDelete);
+        this.editImage = itemView.findViewById(R.id.imageEdit);
 
-        deleteImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onDeleteClick(position);
-                    }
+        deleteImage.setOnClickListener(v -> {
+            if (listener != null) {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onDeleteClick(position);
                 }
             }
         });
 
-        editImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onEditClick(position);
-                    }
+        editImage.setOnClickListener(v -> {
+            if (listener != null) {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onEditClick(position);
                 }
             }
         });

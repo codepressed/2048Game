@@ -29,8 +29,6 @@ public class Score implements Sprite {
     private long startTime;
     private long currentTimeMillis;
     private float currentTimeSeconds;
-
-    //Time
     private Date date;
     private Calendar calendar;
 

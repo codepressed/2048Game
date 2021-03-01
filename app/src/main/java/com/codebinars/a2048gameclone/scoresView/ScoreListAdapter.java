@@ -1,22 +1,13 @@
 package com.codebinars.a2048gameclone.scoresView;
 
-import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.codebinars.a2048gameclone.R;
-import com.codebinars.a2048gameclone.database.DatabaseHelper;
 import com.codebinars.a2048gameclone.database.ScoreModel;
-import com.codebinars.a2048gameclone.scoresView.ScoresViewHolder;
-
 import java.util.ArrayList;
-import java.util.Locale;
-
 
 public class ScoreListAdapter extends RecyclerView.Adapter<ScoresViewHolder>  {
 

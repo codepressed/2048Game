@@ -109,11 +109,9 @@ public class TileManager implements TileManagerCallback, Sprite {
     }
 
 
-
-
-
     /**
      * Algorithm to move and remove tiles
+     * Save a backup on start
      * @param direction to determine the case
      */
     public void onSwipe(SwipeCallback.Direction direction) {
