@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.codebinars.a2048gameclone">
+    package="com.codebinars.a2048game">
 
     <application
         android:allowBackup="true"
@@ -9,16 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.2048GameClone">
-        <activity android:name=".MainActivity" android:screenOrientation="portrait">
+        <activity android:name="com.codebinars.a2048game.MainActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".scoresView.ScoreListRecycler" android:screenOrientation="portrait"/>
-        <activity android:name=".GameActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".EditScoreActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.codebinars.a2048game.scoresView.ScoreListRecycler" android:screenOrientation="portrait"/>
+        <activity android:name="com.codebinars.a2048game.GameActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.codebinars.a2048game.EditScoreActivity" android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

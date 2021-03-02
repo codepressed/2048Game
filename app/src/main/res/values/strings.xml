@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">2048GameClone</string>
+    <string name="app_name">2048 - The Game</string>
 
     <string-array name="sortScoreValues">
         <item>Bigger than</item>
