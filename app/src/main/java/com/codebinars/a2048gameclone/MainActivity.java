@@ -9,6 +9,8 @@ import android.widget.EditText;
 import com.codebinars.a2048gameclone.database.DatabaseHelper;
 import com.codebinars.a2048gameclone.scoresView.ScoreListRecycler;
 
+import static com.codebinars.a2048gameclone.scoresView.ScoreConstants.SCORE_USERNAME;
+
 public class MainActivity extends Activity {
 
     private EditText playerusername;
@@ -26,7 +28,7 @@ public class MainActivity extends Activity {
                 playerusername = findViewById(R.id.playerUsername);
                 String username = playerusername.getText().toString();
                 myIntent = new Intent(MainActivity.this, GameActivity.class);
-                myIntent.putExtra("Username_key", username);
+                myIntent.putExtra(SCORE_USERNAME, username);
                 break;
             case R.id.btnCheckScore:
                 myIntent = new Intent(this, ScoreListRecycler.class);

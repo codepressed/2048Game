@@ -25,6 +25,8 @@ import com.codebinars.a2048gameclone.engine.sprites.EndGame;
 import com.codebinars.a2048gameclone.engine.sprites.Grid;
 import com.codebinars.a2048gameclone.engine.sprites.Score;
 
+import static com.codebinars.a2048gameclone.scoresView.ScoreConstants.SCORE_USERNAME;
+
 public class GameTask extends SurfaceView implements SurfaceHolder.Callback, SwipeCallback, GameTaskCallback {
 
     private MainThread thread;
@@ -51,7 +53,7 @@ public class GameTask extends SurfaceView implements SurfaceHolder.Callback, Swi
         //Get username
         Activity activity = (Activity) context;
         Bundle extras = activity.getIntent().getExtras();
-        username = extras.getString("Username_key");
+        username = extras.getString(SCORE_USERNAME);
 
         swipe = new SwipeListener(getContext(), this);
         scWidth = getScreenWidth((Activity)context);

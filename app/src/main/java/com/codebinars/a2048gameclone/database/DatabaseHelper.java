@@ -13,6 +13,8 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String SCORE_TABLE = "SCORE_TABLE";
+    private static final String DB_NAME = "Scores_db";
+
     private static final String COLUMN_ID = "ID";
     private static final String COLUMN_USERNAME = "NAME";
     private static final String COLUMN_SCORE = "SCORE";
@@ -22,7 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public DatabaseHelper(@Nullable Context context) {
-        super(context, "Scores.db", null, 1);
+        super(context, DB_NAME, null, 1);
     }
 
     @Override
@@ -160,7 +162,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public int getTopScore(){
         SQLiteDatabase db = this.getWritableDatabase();
         Integer topScore;
-        String queryTopScore = "SELECT MAX(" + COLUMN_SCORE + ") topScore FROM "+ SCORE_TABLE;
+        String queryTopScore = "SELECT MAX(" + COLUMN_SCORE + ") FROM "+ SCORE_TABLE;
         Cursor cursor = db.rawQuery(queryTopScore, null);
         cursor.moveToFirst();
         topScore = cursor.getInt(0);
@@ -197,47 +199,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String deleteAllQuery = "DELETE FROM "+ SCORE_TABLE;
         db.execSQL(deleteAllQuery);
     }
-
-    /*
-    public List<ScoreModel> filterByScore(String option, int scoreValue){
-        List<ScoreModel> filterByScore = new ArrayList<>();
-        SQLiteDatabase db = this.getWritableDatabase();
-        String operator = "";
-        switch (option) {
-            case "Greater than":
-                operator = " > ";
-                break;
-            case "Equals to":
-                operator = " = ";
-                break;
-            case "Smaller than":
-                operator = " < ";
-                break;
-        }
-        String queryFilterByScore = "SELECT FROM " + SCORE_TABLE + " WHERE " + COLUMN_SCORE + operator + scoreValue;
-        Cursor cursor = db.rawQuery(queryFilterByScore, null);
-        if (cursor.moveToNext()) {
-            do {
-                int scoreId = cursor.getInt(0);
-                String username = cursor.getString(1);
-                Integer score = cursor.getInt(2);
-                String datetime = cursor.getString(3);
-                Float duration = cursor.getFloat(4);
-                ScoreModel newScore = new ScoreModel(scoreId, username, score, datetime, duration);
-                filterByScore.add(newScore);
-            }
-            while (cursor.moveToNext());
-        }
-        else{
-            //There aren't scores. No scores will be displayed
-        }
-        cursor.close();
-        db.close();
-        return filterByScore;
-        }
-
-    */
-
-
 }
 

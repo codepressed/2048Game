@@ -10,8 +10,7 @@ import com.codebinars.a2048gameclone.R;
 
 public class ScoresViewHolder extends RecyclerView.ViewHolder{
     public TextView username, score, datetime, duration;
-    public ImageView editImage, deleteImage;
-
+    public ImageView editImage, deleteImage, tweetImage;
 
 
 
@@ -27,6 +26,7 @@ public class ScoresViewHolder extends RecyclerView.ViewHolder{
         this.duration = itemView.findViewById(R.id.durationRecycler);
         this.deleteImage = itemView.findViewById(R.id.imageDelete);
         this.editImage = itemView.findViewById(R.id.imageEdit);
+        this.tweetImage = itemView.findViewById(R.id.tweetIt);
 
         deleteImage.setOnClickListener(v -> {
             if (listener != null) {
@@ -42,6 +42,16 @@ public class ScoresViewHolder extends RecyclerView.ViewHolder{
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
                     listener.onEditClick(position);
+                }
+            }
+
+        });
+
+        tweetImage.setOnClickListener(v -> {
+            if (listener != null) {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onTweetClick(position);
                 }
             }
         });

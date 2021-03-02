@@ -99,6 +99,14 @@
             android:layout_marginLeft="10dp"/>
 
         <ImageView
+            android:id="@+id/tweetIt"
+            android:layout_width="25dp"
+            android:layout_height="50dp"
+            android:layout_toStartOf="@+id/imageEdit"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/tweet"/>
+
+        <ImageView
             android:id="@+id/imageEdit"
             android:layout_width="25dp"
             android:layout_height="50dp"
@@ -118,5 +126,4 @@
 
 
     </RelativeLayout>
-
 </androidx.cardview.widget.CardView>

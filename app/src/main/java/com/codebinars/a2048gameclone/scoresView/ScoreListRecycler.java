@@ -2,6 +2,7 @@ package com.codebinars.a2048gameclone.scoresView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -9,10 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,11 +19,18 @@ import com.codebinars.a2048gameclone.EditScoreActivity;
 import com.codebinars.a2048gameclone.R;
 import com.codebinars.a2048gameclone.database.DatabaseHelper;
 import com.codebinars.a2048gameclone.database.ScoreModel;
+import static com.codebinars.a2048gameclone.scoresView.ScoreConstants.*;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 
 public class ScoreListRecycler extends Activity implements AdapterView.OnItemSelectedListener{
+    private final int SORT_BY_USERNAME=  0;
+    private final int SORT_BY_SCORE =  1;
+    private final int SORT_BY_DURATION =  2;
+    private final int SORT_BY_DATETIME =  3;
+    private final String TWEETBASE = "https://twitter.com/intent/tweet?text=In Rionacko's 2048 game, I have achieved the score of ";
+
     private ArrayList<ScoreModel> listScores;
     private RecyclerView recyclerViewScores;
     private DatabaseHelper databaseHelper;
@@ -58,15 +64,25 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
             @Override
             public void onEditClick(int position) {
                 myIntent = new Intent(ScoreListRecycler.this, EditScoreActivity.class);
-                myIntent.putExtra("Id_key", listScores.get(position).getId());
-                myIntent.putExtra("Score_key", listScores.get(position).getScore().toString());
-                myIntent.putExtra("Username_key", listScores.get(position).getUsername());
-                myIntent.putExtra("Date_key", listScores.get(position).getDatetime());
-                myIntent.putExtra("Duration_key", listScores.get(position).getDuration().toString());
+                myIntent.putExtra(SCORE_ID, listScores.get(position).getId());
+                myIntent.putExtra(SCORE_VALUE, listScores.get(position).getScore().toString());
+                myIntent.putExtra(SCORE_USERNAME, listScores.get(position).getUsername());
+                myIntent.putExtra(SCORE_DATETIME, listScores.get(position).getDatetime());
+                myIntent.putExtra(SCORE_DURATION, listScores.get(position).getDuration().toString());
                 startActivity(myIntent);
                 finish();
             }
+
+            @Override
+            public void onTweetClick(int position) {
+                int tweetScore = listScores.get(position).getScore();
+                String tweetUrl = TWEETBASE+tweetScore;
+                Uri uri = Uri.parse(tweetUrl);
+                startActivity(new Intent(Intent.ACTION_VIEW, uri));
+            }
         });
+
+
 
         //SCORE Filtering: Smaller than, equals to, bigger than
         Spinner scoreSpinner = findViewById(R.id.scoreSpinner);
@@ -96,7 +112,7 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
      */
     private void scoreSort(int option){
         switch (option){
-            case 0: //Sort by USERNAME
+            case 0:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     if (!sortedByUsername){
                         listScores.sort(Comparator.comparing(ScoreModel::getUsername));
@@ -107,7 +123,7 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
                     }
                 }
                 break;
-            case 1: //Sort by SCORE
+            case 1:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     if (!sortedByScore){
                         listScores.sort(Comparator.comparing(ScoreModel::getScore));
@@ -118,7 +134,7 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
                     }
                 }
                 break;
-            case 2: //Sort by DURATION
+            case 2:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     if (!sortedByDuration){
                         listScores.sort(Comparator.comparing(ScoreModel::getDuration));
@@ -129,7 +145,7 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
                     }
                 }
                 break;
-            case 3: //Sort by GAMEDATE
+            case 3:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     if (!sortedByDate){
                         listScores.sort(Comparator.comparing(ScoreModel::getDatetime));
@@ -153,7 +169,6 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
         if (option.equals("Bigger than")){
             for (int i = 0; i < listScores.size(); i++) {
                 if (listScores.get(i).getScore() <= filterScore){
-                    System.out.println(listScores.get(i).getUsername());
                     listScores.remove(i--);
                 }
             }
@@ -161,7 +176,6 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
         else if (option.equals("Smaller than")){
             for (int i = 0; i < listScores.size(); i++) {
                 if (listScores.get(i).getScore() >= filterScore){
-                    System.out.println(listScores.get(i).getUsername());
                     listScores.remove(i--);
                 }
             }
@@ -169,7 +183,6 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
         else{
             for (int i = 0; i < listScores.size(); i++) {
                 if (listScores.get(i).getScore() != filterScore){
-                    System.out.println(listScores.get(i).getUsername());
                     listScores.remove(i--);
                 }
             }
@@ -207,25 +220,20 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
                 spinnerScore = findViewById(R.id.scoreSpinner);
                 String scoreOperator = spinnerScore.getSelectedItem().toString();
                 filterByScore(scoreOperator, scoreForFilter);
-            //case R.id.deleteItem:
-            //    System.out.println("Gmorning");
             case R.id.sortByUsername:
-                scoreSort(0);
+                scoreSort(SORT_BY_USERNAME);
                 break;
             case R.id.sortByScore:
-                scoreSort(1);
+                scoreSort(SORT_BY_SCORE);
                 break;
             case R.id.sortByDuration:
-                scoreSort(2);
+                scoreSort(SORT_BY_DURATION);
                 break;
             case R.id.sortByDatetime:
-                scoreSort(3);
+                scoreSort(SORT_BY_DATETIME);
                 break;
-
-
         }
     }
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                    }

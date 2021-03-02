@@ -46,17 +46,17 @@ public class SwipeListener implements GestureDetector.OnGestureListener{
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         if(Math.abs(velocityX) > Math.abs(velocityY)){
             //Horizontal Fling
-            if(velocityX > 0){
+            if(velocityX > 5){
                 callback.onSwipe(SwipeCallback.Direction.RIGHT);
 
-            } else{
+            } else if(velocityX < 5){
                 callback.onSwipe(SwipeCallback.Direction.LEFT);
             }
             //Vertical Fling
         } else{
-            if(velocityY > 0){
+            if(velocityY > 5){
                 callback.onSwipe(SwipeCallback.Direction.DOWN);
-            } else{
+            } else if(velocityY < 5){
                 callback.onSwipe(SwipeCallback.Direction.UP);
             }
 

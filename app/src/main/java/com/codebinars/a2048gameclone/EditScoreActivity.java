@@ -8,6 +8,7 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 import com.codebinars.a2048gameclone.database.DatabaseHelper;
 import com.codebinars.a2048gameclone.scoresView.ScoreListRecycler;
+import static com.codebinars.a2048gameclone.scoresView.ScoreConstants.*;
 
 public class EditScoreActivity extends Activity {
     private DatabaseHelper databaseHelper;
@@ -27,11 +28,11 @@ public class EditScoreActivity extends Activity {
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-        scoreId = extras.getInt("Id_key");
-        editScore.setText(extras.getString("Score_key"));
-        editUsername.setText(extras.getString("Username_key"));
-        editDate.setText(extras.getString("Date_key"));
-        editDuration.setText(extras.getString("Duration_key"));
+        scoreId = extras.getInt(SCORE_ID);
+        editScore.setText(extras.getString(SCORE_VALUE));
+        editUsername.setText(extras.getString(SCORE_USERNAME));
+        editDate.setText(extras.getString(SCORE_DATETIME));
+        editDuration.setText(extras.getString(SCORE_DURATION));
     }
 
     public void onClick(View view) {
