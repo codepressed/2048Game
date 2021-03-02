@@ -14,16 +14,22 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String SCORE_TABLE = "SCORE_TABLE";
     private static final String DB_NAME = "Scores_db";
-
     private static final String COLUMN_ID = "ID";
     private static final String COLUMN_USERNAME = "NAME";
     private static final String COLUMN_SCORE = "SCORE";
     private static final String COLUMN_DATETIME = "DATETIME";
     private static final String COLUMN_DURATION = "DURATION";
+    private static DatabaseHelper dbInstance = null;
+
+    public static DatabaseHelper getInstance(Context activityContext){
+        if(dbInstance == null){
+                dbInstance = new DatabaseHelper(activityContext.getApplicationContext());
+        }
+        return dbInstance ;
+        }
 
 
-
-    public DatabaseHelper(@Nullable Context context) {
+    private DatabaseHelper(@Nullable Context context) {
         super(context, DB_NAME, null, 1);
     }
 
@@ -79,7 +85,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             //There aren't scores. No scores will be displayed
         }
         cursor.close();
-        db.close();
         return getAllScores;
     }
 
@@ -108,7 +113,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             //There aren't scores. No scores will be displayed
         }
         cursor.close();
-        db.close();
         return getTop10;
     }
 
@@ -138,7 +142,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             //There aren't scores. No scores will be displayed
         }
         cursor.close();
-        db.close();
         return getTop10ByUsername;
     }
 
@@ -151,9 +154,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String queryDeleteByID = "DELETE FROM " + SCORE_TABLE + " WHERE " + COLUMN_ID + " = " + id;
         db.execSQL(queryDeleteByID);
-        db.close();
-        System.out.println("DELETE OF THE FOLLOWING ID WAS A SUCCESS: "+id);
-    }
+        }
 
     /**
      * We search in DB the topScore
@@ -187,7 +188,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_DATETIME + " = '" + datetime + "', " +
                 COLUMN_DURATION + " = " + duration +
                 " WHERE " + COLUMN_ID + " = " + id;
-
         db.execSQL(updateScoreByID);
     }
 

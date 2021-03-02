@@ -37,7 +37,11 @@ public class MainThread extends Thread{
                 canvas = surfaceHolder.lockCanvas();
                 synchronized (surfaceHolder){
                     gameTask.update();
-                    gameTask.draw(canvas);
+                    try {
+                        gameTask.draw(canvas);
+                    } catch (Exception e) {
+                        setRunning(false);
+                    }
                 }
             } catch (Exception e){
                 e.printStackTrace();

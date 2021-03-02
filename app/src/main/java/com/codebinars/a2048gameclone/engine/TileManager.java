@@ -36,6 +36,9 @@ public class TileManager implements TileManagerCallback, Sprite {
         initGame();
     }
 
+    /**
+     * Initialize drawables of Tile values
+     */
     private void initBitmaps(){
         drawables.add(R.drawable.one);
         drawables.add(R.drawable.two);
@@ -61,6 +64,10 @@ public class TileManager implements TileManagerCallback, Sprite {
         }
     }
 
+    /**
+     * Once we init a game, create a new matrix and backup matrix.
+     * Generate 2 random tiles on random positions
+     */
     public void initGame() {
         matrix = new Tile[4][4];
         backupMatrix = new Tile[4][4];
@@ -385,7 +392,7 @@ public class TileManager implements TileManagerCallback, Sprite {
                 Tile t = matrix[i][j];
                 if(t != null){
                     if (t.isWasIncremented()){ //¿Was it incremented after moving?
-                        t.setCount(t.getCount()/2);
+                        t.setCount(t.getCount()-1);
                     }
                     movingTiles.add(t);
                     t.move(i,j);
@@ -401,7 +408,6 @@ public class TileManager implements TileManagerCallback, Sprite {
      */
     private void spawn() {
         if (toSpawn) {
-            System.out.println("I'm spawning Something... uwu");
             toSpawn = false;
             Tile t = null;
             while (t == null) {

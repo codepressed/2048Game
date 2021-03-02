@@ -21,9 +21,12 @@ import androidx.annotation.NonNull;
 
 import com.codebinars.a2048gameclone.R;
 import com.codebinars.a2048gameclone.database.DatabaseHelper;
+import com.codebinars.a2048gameclone.database.ScoreModel;
 import com.codebinars.a2048gameclone.engine.sprites.EndGame;
 import com.codebinars.a2048gameclone.engine.sprites.Grid;
 import com.codebinars.a2048gameclone.engine.sprites.Score;
+
+import java.util.Calendar;
 
 import static com.codebinars.a2048gameclone.scoresView.ScoreConstants.SCORE_USERNAME;
 
@@ -42,7 +45,6 @@ public class GameTask extends SurfaceView implements SurfaceHolder.Callback, Swi
     private Boolean scoreSaved = false;
     private String username;
     private int buttonHeight, buttonWidth;
-
     private SwipeListener swipe;
 
     public GameTask(Context context, AttributeSet attributeSet){
@@ -59,7 +61,7 @@ public class GameTask extends SurfaceView implements SurfaceHolder.Callback, Swi
         scWidth = getScreenWidth((Activity)context);
         scHeight = getScreenHeight((Activity)context);
         standardSize = (int) (scWidth*0.88)/4;
-        databaseHelper = new DatabaseHelper(getContext());
+        databaseHelper = DatabaseHelper.getInstance((Activity) context);
 
         grid = new Grid(getResources(),scWidth,scHeight,standardSize);
         tileManager = new TileManager(getResources(), standardSize, scWidth, scHeight, this);
@@ -213,7 +215,7 @@ public class GameTask extends SurfaceView implements SurfaceHolder.Callback, Swi
     public void gameOver() {
         endGame = true;
         if (!scoreSaved){
-            score.saveScore();
+            saveScore();
             scoreSaved = true;
         }
     }
@@ -226,5 +228,18 @@ public class GameTask extends SurfaceView implements SurfaceHolder.Callback, Swi
     @Override
     public void reached2048() {
         score.reached2048();
+    }
+
+    public void saveScore(){
+        ScoreModel scoreModel = new ScoreModel();
+        scoreModel.setScore(score.getScore());
+        scoreModel.setUsername(this.username);
+        scoreModel.setDatetime(score.getCalendar().get(Calendar.DAY_OF_MONTH) + " - " + (score.getCalendar().get(Calendar.MONTH) + 1) + " - " + score.getCalendar().get(Calendar.YEAR));
+        scoreModel.setDuration(score.getCurrentTimeSeconds());
+        databaseHelper.addScore(scoreModel);
+        }
+
+    public void closeDb(){
+        databaseHelper.close();
     }
 }

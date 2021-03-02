@@ -127,22 +127,6 @@ public class Score implements Sprite {
     }
 
     /**
-     * Method to save score details in a ScoreModel
-     * It's used on GameTask to save it on DB
-     */
-    public void saveScore(){
-        if (score > 1) {
-            ScoreModel scoreModel = new ScoreModel();
-            scoreModel.setScore(this.score);
-            scoreModel.setUsername(this.username);
-            // I'm adding +1 to Month because Calendar starts from 0.
-            scoreModel.setDatetime(calendar.get(Calendar.DAY_OF_MONTH) + " - " + (calendar.get(Calendar.MONTH) + 1) + " - " + calendar.get(Calendar.YEAR));
-            scoreModel.setDuration(currentTimeSeconds);
-            databaseHelper.addScore(scoreModel);
-        }
-    }
-
-    /**
      * Save a BackUp of the score
      */
     public void setBackupScore(){
@@ -154,5 +138,17 @@ public class Score implements Sprite {
      */
     public void restoreScore(){
         this.score = backupScore;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public Calendar getCalendar() {
+        return calendar;
+    }
+
+    public float getCurrentTimeSeconds() {
+        return currentTimeSeconds;
     }
 }

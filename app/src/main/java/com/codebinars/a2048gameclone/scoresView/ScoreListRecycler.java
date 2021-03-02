@@ -47,7 +47,7 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_score_recycler);
-        databaseHelper = new DatabaseHelper(getApplicationContext());
+        databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
         listScores = new ArrayList<>();
         recyclerViewScores = findViewById(R.id.recyclerScores);
         recyclerViewScores.setLayoutManager(new LinearLayoutManager(this));
@@ -165,8 +165,7 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
      * Filter ScoreArrayList by Score nº
      */
     public void filterByScore(String option, int filterScore){
-        System.out.println("Option: " + option + ", FilterScore: " + filterScore + ", ArraySize: " + listScores.size());
-        if (option.equals("Bigger than")){
+         if (option.equals("Bigger than")){
             for (int i = 0; i < listScores.size(); i++) {
                 if (listScores.get(i).getScore() <= filterScore){
                     listScores.remove(i--);

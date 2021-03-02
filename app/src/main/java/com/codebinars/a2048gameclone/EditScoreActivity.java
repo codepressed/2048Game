@@ -1,10 +1,13 @@
 package com.codebinars.a2048gameclone;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import com.codebinars.a2048gameclone.database.DatabaseHelper;
 import com.codebinars.a2048gameclone.scoresView.ScoreListRecycler;
@@ -20,7 +23,7 @@ public class EditScoreActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_item_score);
 
-        databaseHelper = new DatabaseHelper(getApplicationContext());
+        databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
         editScore = findViewById(R.id.editScoreCamp);
         editUsername = findViewById(R.id.editUsernameCamp);
         editDate = findViewById(R.id.editDateCamp);
@@ -39,20 +42,28 @@ public class EditScoreActivity extends Activity {
         Intent myIntent = null;
         switch (view.getId()) {
             case R.id.savechanges:
-                databaseHelper.updateScore(
-                        scoreId,
-                        editUsername.getText().toString(),
-                        Integer.valueOf(editScore.getText().toString()),
-                        editDate.getText().toString(),
-                        Float.parseFloat(editDuration.getText().toString()));
-                myIntent = new Intent(EditScoreActivity.this, ScoreListRecycler.class);
+                try {
+                    databaseHelper.updateScore(
+                            scoreId,
+                            editUsername.getText().toString(),
+                            Integer.valueOf(editScore.getText().toString()),
+                            editDate.getText().toString(),
+                            Float.parseFloat(editDuration.getText().toString()));
+                    myIntent = new Intent(EditScoreActivity.this, ScoreListRecycler.class);
+                    startActivity(myIntent);
+                    finish();
+                } catch (NumberFormatException e) {
+                    Toast.makeText(this, "Wrong Datatype. Fix it if you want to save it",
+                            Toast.LENGTH_LONG).show();
+                }
                 break;
             case R.id.undochanges:
                 myIntent = new Intent(EditScoreActivity.this, ScoreListRecycler.class);
+                startActivity(myIntent);
+                finish();
                 break;
         }
-        startActivity(myIntent);
-        finish();
+
     }
 }
 
