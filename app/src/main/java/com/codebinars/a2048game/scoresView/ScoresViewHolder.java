@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.codebinars.a2048game.R;
 
 public class ScoresViewHolder extends RecyclerView.ViewHolder{
-    public TextView username, score, datetime, duration;
-    public ImageView editImage, deleteImage, tweetImage;
+    public TextView username, score, datetime, duration, country;
+    public ImageView editImage, deleteImage, tweetImage, avatarImage;
 
 
 
@@ -24,9 +24,12 @@ public class ScoresViewHolder extends RecyclerView.ViewHolder{
         this.score = itemView.findViewById(R.id.scoreRecycler);
         this.datetime = itemView.findViewById(R.id.dateRecycler);
         this.duration = itemView.findViewById(R.id.durationRecycler);
+        this.country = itemView.findViewById(R.id.countryRecycler);
+
         this.deleteImage = itemView.findViewById(R.id.imageDelete);
         this.editImage = itemView.findViewById(R.id.imageEdit);
         this.tweetImage = itemView.findViewById(R.id.tweetIt);
+        this.avatarImage = itemView.findViewById(R.id.avatarItem);
 
         deleteImage.setOnClickListener(v -> {
             if (listener != null) {

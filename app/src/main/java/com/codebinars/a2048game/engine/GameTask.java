@@ -26,9 +26,12 @@ import com.codebinars.a2048game.engine.sprites.EndGame;
 import com.codebinars.a2048game.engine.sprites.Grid;
 import com.codebinars.a2048game.engine.sprites.Score;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
-import static com.codebinars.a2048game.scoresView.ScoreConstants.SCORE_USERNAME;
+import static com.codebinars.a2048game.scoresView.ScoreConstants.USER_NAME;
 
 public class GameTask extends SurfaceView implements SurfaceHolder.Callback, SwipeCallback, GameTaskCallback {
 
@@ -46,6 +49,8 @@ public class GameTask extends SurfaceView implements SurfaceHolder.Callback, Swi
     private String username;
     private int buttonHeight, buttonWidth;
     private SwipeListener swipe;
+    private SimpleDateFormat dateFormat;
+    private Calendar cal;
 
     public GameTask(Context context, AttributeSet attributeSet){
         super(context,attributeSet);
@@ -55,7 +60,10 @@ public class GameTask extends SurfaceView implements SurfaceHolder.Callback, Swi
         //Get username
         Activity activity = (Activity) context;
         Bundle extras = activity.getIntent().getExtras();
-        username = extras.getString(SCORE_USERNAME);
+        username = extras.getString(USER_NAME);
+        cal = new GregorianCalendar();
+        dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        dateFormat.setTimeZone(cal.getTimeZone());
 
         swipe = new SwipeListener(getContext(), this);
         scWidth = getScreenWidth((Activity)context);
@@ -126,6 +134,7 @@ public class GameTask extends SurfaceView implements SurfaceHolder.Callback, Swi
         tileManager.initGame();
         score = new Score(getResources(), scWidth, scHeight, standardSize, databaseHelper, username);
         scoreSaved = false;
+        System.out.printf("Oh, thanks %s for playing the game",username);
     }
 
     @Override
@@ -179,9 +188,7 @@ public class GameTask extends SurfaceView implements SurfaceHolder.Callback, Swi
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (endGame) {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 initGame();
-            }
         } else {
             float eventX = event.getAxisValue(MotionEvent.AXIS_X);
             float eventY = event.getAxisValue(MotionEvent.AXIS_Y);
@@ -193,7 +200,8 @@ public class GameTask extends SurfaceView implements SurfaceHolder.Callback, Swi
             //Check if UNDO MOVEMENT was pressed
             if(event.getAction() == MotionEvent.ACTION_DOWN && eventX > undoMovementX && eventX < undoMovementX + buttonWidth &&
                     eventY > undoMovementY && eventY < undoMovementY + buttonHeight){
-                restoreBackup();
+                if(score.getScore()>=10 && score.getScore() != score.getBackupScore()){
+                    restoreBackup();}
             }
             swipe.onTouchEvent(event);
         }
@@ -233,13 +241,10 @@ public class GameTask extends SurfaceView implements SurfaceHolder.Callback, Swi
     public void saveScore(){
         ScoreModel scoreModel = new ScoreModel();
         scoreModel.setScore(score.getScore());
-        scoreModel.setUsername(this.username);
-        scoreModel.setDatetime(score.getCalendar().get(Calendar.DAY_OF_MONTH) + " - " + (score.getCalendar().get(Calendar.MONTH) + 1) + " - " + score.getCalendar().get(Calendar.YEAR));
+        scoreModel.setUsernameId(databaseHelper.UserInDB(username));
+        scoreModel.setDatetime(dateFormat.format(cal.getTime()));
         scoreModel.setDuration(score.getCurrentTimeSeconds());
         databaseHelper.addScore(scoreModel);
+        System.out.println("Score saved: "+scoreModel);
         }
-
-    public void closeDb(){
-        databaseHelper.close();
-    }
 }

@@ -2,21 +2,20 @@ package com.codebinars.a2048game.database;
 
 public class ScoreModel {
     private int id;
-    private String username;
+    private Integer usernameId;
     private Integer score;
     private String datetime;
     private Float duration;
 
-    public ScoreModel(int id, String username, Integer score, String datetime, Float duration) {
+    public ScoreModel(int id, Integer usernameId, Integer score, String datetime, Float duration) {
         this.id = id;
-        this.username = username;
+        this.usernameId = usernameId;
         this.score = score;
         this.datetime = datetime;
         this.duration = duration;
     }
 
     public ScoreModel(){
-
     }
 
     public int getId() {
@@ -27,12 +26,12 @@ public class ScoreModel {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public Integer getUsernameId() {
+        return usernameId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsernameId(Integer usernameId) {
+        this.usernameId = usernameId;
     }
 
     public Integer getScore() {
@@ -63,7 +62,7 @@ public class ScoreModel {
     public String toString() {
         return "ScoreModel{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
+                ", usernameId='" + usernameId + '\'' +
                 ", score=" + score +
                 ", datetime='" + datetime + '\'' +
                 ", duration=" + duration +

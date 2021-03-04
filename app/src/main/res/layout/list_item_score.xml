@@ -87,6 +87,14 @@
             android:textSize="@dimen/recycler_font_size"
             android:textStyle="bold" />
 
+        <ImageView
+            android:id="@+id/avatarItem"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="10dp"
+            android:layout_toStartOf="@+id/tweetIt"
+            android:background="@drawable/defaultavatar" />
+
         <TextView
             android:id="@+id/durationRecycler"
             android:layout_width="wrap_content"
@@ -122,6 +130,16 @@
             android:layout_alignParentEnd="true"
             android:layout_marginRight="10dp"
             android:src="@drawable/remove" />
+
+        <TextView
+            android:id="@+id/countryRecycler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/avatarItem"
+            android:layout_below="@+id/imageEdit"
+            android:text="Spain"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/recycler_font_size" />
 
 
 

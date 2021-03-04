@@ -28,8 +28,6 @@ public class Score implements Sprite {
     private long startTime;
     private long currentTimeMillis;
     private float currentTimeSeconds;
-    private Date date;
-    private Calendar calendar;
 
     public Score(Resources resources, int screenWidth, int screenHeight, int standardSize, DatabaseHelper databaseHelper, String username) {
         this.resources = resources;
@@ -39,9 +37,6 @@ public class Score implements Sprite {
         this.databaseHelper = databaseHelper;
         this.username = username;
         this.startTime = System.currentTimeMillis();
-        this.date = new Date();
-        this.calendar = Calendar.getInstance();
-        this.calendar.setTime(date);
 
         topScore = databaseHelper.getTopScore();
         int width = (int) resources.getDimension(R.dimen.score_label_width);
@@ -129,7 +124,7 @@ public class Score implements Sprite {
      * Save a BackUp of the score
      */
     public void setBackupScore(){
-        this.backupScore = score;
+        this.backupScore = score - 10;
     }
 
     /**
@@ -143,11 +138,17 @@ public class Score implements Sprite {
         return score;
     }
 
-    public Calendar getCalendar() {
-        return calendar;
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getBackupScore() {
+        return backupScore;
     }
 
     public float getCurrentTimeSeconds() {
         return currentTimeSeconds;
     }
+
+
 }

@@ -52,7 +52,7 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
         recyclerViewScores = findViewById(R.id.recyclerScores);
         recyclerViewScores.setLayoutManager(new LinearLayoutManager(this));
         checkScoreList();
-        adapter = new ScoreListAdapter(listScores);
+        adapter = new ScoreListAdapter(listScores, this);
         recyclerViewScores.setAdapter(adapter);
 
         adapter.setOnItemclickListener(new OnItemClickListener() {
@@ -64,11 +64,17 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
             @Override
             public void onEditClick(int position) {
                 myIntent = new Intent(ScoreListRecycler.this, EditScoreActivity.class);
+                //Send score data
                 myIntent.putExtra(SCORE_ID, listScores.get(position).getId());
                 myIntent.putExtra(SCORE_VALUE, listScores.get(position).getScore().toString());
-                myIntent.putExtra(SCORE_USERNAME, listScores.get(position).getUsername());
                 myIntent.putExtra(SCORE_DATETIME, listScores.get(position).getDatetime());
                 myIntent.putExtra(SCORE_DURATION, listScores.get(position).getDuration().toString());
+                myIntent.putExtra(USER_NAME, databaseHelper.getUser(listScores.get(position).getUsernameId()));
+                myIntent.putExtra(USER_COUNTRY, databaseHelper.getCountry(listScores.get(position).getUsernameId()));
+                if(databaseHelper.getImage(listScores.get(position).getUsernameId()) != null){
+                myIntent.putExtra(USER_AVATAR, databaseHelper.getImage(listScores.get(position).getUsernameId()));
+                }
+
                 startActivity(myIntent);
                 finish();
             }
@@ -93,7 +99,7 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
     }
 
     private void removeItem(int position) {
-        databaseHelper.deleteByID(listScores.get(position).getId());
+        databaseHelper.deleteScoreByID(listScores.get(position).getId());
         listScores.remove(position);
         adapter.notifyItemRemoved(position);
 
@@ -115,10 +121,10 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
             case 0:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     if (!sortedByUsername){
-                        listScores.sort(Comparator.comparing(ScoreModel::getUsername));
+                        listScores.sort(Comparator.comparing(ScoreModel::getUsernameId));
                         sortedByUsername = true;}
                     else{
-                        listScores.sort(Comparator.comparing(ScoreModel::getUsername).reversed());
+                        listScores.sort(Comparator.comparing(ScoreModel::getUsernameId).reversed());
                         sortedByUsername = false;
                     }
                 }
@@ -197,7 +203,7 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
     public void onClick(View view){
         switch (view.getId()){
             case R.id.top10:
-                listScores = (ArrayList<ScoreModel>) databaseHelper.getTop10();
+                listScores = (ArrayList<ScoreModel>) databaseHelper.getTop10Score();
                 adapter.playersList = listScores;
                 recyclerViewScores.setAdapter(adapter);
                 break;

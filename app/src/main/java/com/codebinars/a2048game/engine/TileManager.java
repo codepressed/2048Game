@@ -122,8 +122,8 @@ public class TileManager implements TileManagerCallback, Sprite {
      * @param direction to determine the case
      */
     public void onSwipe(SwipeCallback.Direction direction) {
-        backupMatrix();
         if (!moving) {
+            backupMatrix();
             Tile[][] newMatrix = new Tile[4][4];
             switch (direction) {
                 case UP:
