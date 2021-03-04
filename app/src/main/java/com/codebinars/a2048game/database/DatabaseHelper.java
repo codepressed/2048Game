@@ -239,18 +239,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         checkDbStatus();
         int userId;
         username = username.toLowerCase();
-        String queryUserExist = "SELECT "+COLUMN_USERNAME+" FROM "+ USER_TABLE + " WHERE " + COLUMN_USERNAME + " = '" + username + "'";
+        String queryUserExist = "SELECT "+COLUMN_ID+" FROM "+ USER_TABLE + " WHERE " + COLUMN_USERNAME + " = '" + username + "'";
         Cursor cursor = db.rawQuery(queryUserExist, null);
-        if(cursor.getCount() > 1){
+        if(cursor.getCount() > 0){
             cursor.moveToFirst();
-            userId = cursor.getInt(0)+1;
+            userId = cursor.getInt(0);
             System.out.println("USER WAS ALREADY CREATED: "+username + " with the following id: "+userId);
         }
         else{
             ContentValues cv = new ContentValues();
             cv.put(COLUMN_USERNAME, username);
             cv.put(COLUMN_COUNTRY, "Unknown country");
-            userId = (int) db.insert(USER_TABLE, null, cv);
+            db.insert(USER_TABLE, null, cv);
+            String queryLastID = "SELECT MAX(" + COLUMN_ID + ") FROM "+USER_TABLE;
+            cursor = db.rawQuery(queryLastID, null);
+            cursor.moveToFirst();
+            userId = cursor.getInt(0);
+
             System.out.println("USER HAS BEEN CREATED: "+username + " with the following id: "+ userId);
         }
         cursor.close();
