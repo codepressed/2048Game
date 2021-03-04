@@ -200,8 +200,7 @@ public class GameTask extends SurfaceView implements SurfaceHolder.Callback, Swi
             //Check if UNDO MOVEMENT was pressed
             if(event.getAction() == MotionEvent.ACTION_DOWN && eventX > undoMovementX && eventX < undoMovementX + buttonWidth &&
                     eventY > undoMovementY && eventY < undoMovementY + buttonHeight){
-                if(score.getScore()>=10 && score.getScore() != score.getBackupScore()){
-                    restoreBackup();}
+                    restoreBackup();
             }
             swipe.onTouchEvent(event);
         }

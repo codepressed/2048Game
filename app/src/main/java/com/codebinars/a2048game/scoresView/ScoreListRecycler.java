@@ -71,9 +71,9 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
                 myIntent.putExtra(SCORE_DURATION, listScores.get(position).getDuration().toString());
                 myIntent.putExtra(USER_NAME, databaseHelper.getUser(listScores.get(position).getUsernameId()));
                 myIntent.putExtra(USER_COUNTRY, databaseHelper.getCountry(listScores.get(position).getUsernameId()));
-                if(databaseHelper.getImage(listScores.get(position).getUsernameId()) != null){
+                /*if(databaseHelper.getImage(listScores.get(position).getUsernameId()) != null){
                 myIntent.putExtra(USER_AVATAR, databaseHelper.getImage(listScores.get(position).getUsernameId()));
-                }
+                }*/
 
                 startActivity(myIntent);
                 finish();

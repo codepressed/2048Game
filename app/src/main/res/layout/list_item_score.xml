@@ -91,9 +91,10 @@
             android:id="@+id/avatarItem"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:scaleType="fitXY"
             android:layout_margin="10dp"
             android:layout_toStartOf="@+id/tweetIt"
-            android:background="@drawable/defaultavatar" />
+            android:src="@drawable/defaultavatar" />
 
         <TextView
             android:id="@+id/durationRecycler"

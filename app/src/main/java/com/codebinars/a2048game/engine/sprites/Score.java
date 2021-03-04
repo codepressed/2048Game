@@ -124,7 +124,7 @@ public class Score implements Sprite {
      * Save a BackUp of the score
      */
     public void setBackupScore(){
-        this.backupScore = score - 10;
+        this.backupScore = score;
     }
 
     /**
@@ -140,10 +140,6 @@ public class Score implements Sprite {
 
     public void setScore(int score) {
         this.score = score;
-    }
-
-    public int getBackupScore() {
-        return backupScore;
     }
 
     public float getCurrentTimeSeconds() {

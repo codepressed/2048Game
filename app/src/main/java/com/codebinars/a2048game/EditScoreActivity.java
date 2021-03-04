@@ -3,22 +3,14 @@ package com.codebinars.a2048game;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.ImageDecoder;
-import android.location.Geocoder;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
-import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,11 +19,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.codebinars.a2048game.database.DatabaseHelper;
-import com.codebinars.a2048game.fileUtils.ImageUtils;
 import com.codebinars.a2048game.scoresView.ScoreListRecycler;
 
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -45,9 +37,11 @@ public class EditScoreActivity extends Activity {
     private EditText editUsername, editScore, editDuration, editCountry;
     private TextView editDate;
     private ImageView avatarView;
+    private boolean updatedImage = false;
     private int scoreId;
-    private Bitmap avatarImage;
+    private Bitmap avatarImage = null;
     private Calendar calendar;
+    private String imageroot;
 
 
     @Override
@@ -63,7 +57,6 @@ public class EditScoreActivity extends Activity {
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             updateDate();
         };
-
         databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
         editScore = findViewById(R.id.editScoreCamp);
         editUsername = findViewById(R.id.editUsernameCamp);
@@ -79,6 +72,9 @@ public class EditScoreActivity extends Activity {
         editDuration.setText(extras.getString(SCORE_DURATION));
         editUsername.setText(extras.getString(USER_NAME));
         editCountry.setText(extras.getString(USER_COUNTRY));
+        if(databaseHelper.getImage(databaseHelper.UserInDB(extras.getString(USER_NAME))) != null){
+            avatarView.setImageBitmap(databaseHelper.getImage(databaseHelper.UserInDB(extras.getString(USER_NAME))));
+        }
         editDate.setText(extras.getString(SCORE_DATETIME));
         editDate.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -111,21 +107,19 @@ public class EditScoreActivity extends Activity {
                 editCountry.setText(getApplicationContext().getResources().getConfiguration().locale.getDisplayCountry());
                 break;
             case R.id.savechanges:
-                try {
                     databaseHelper.updateScore(
                             scoreId,
                             editUsername.getText().toString(),
                             Integer.valueOf(editScore.getText().toString()),
                             editDate.getText().toString(),
                             Float.parseFloat(editDuration.getText().toString()));
-                    databaseHelper.updateUser(editUsername.getText().toString().toLowerCase(), ImageUtils.getBytesFromBitmap(avatarImage), editCountry.getText().toString());
+                    if (avatarImage!=null){
+                        saveImage(avatarImage);
+                    }
+                    databaseHelper.updateUser(editUsername.getText().toString().toLowerCase(), imageroot, editCountry.getText().toString());
                     myIntent = new Intent(EditScoreActivity.this, ScoreListRecycler.class);
                     startActivity(myIntent);
                     finish();
-                } catch (NumberFormatException e) {
-                    Toast.makeText(this, "Wrong Datatype. Fix it if you want to save it",
-                            Toast.LENGTH_LONG).show();
-                }
                 break;
             case R.id.undochanges:
                 myIntent = new Intent(EditScoreActivity.this, ScoreListRecycler.class);
@@ -133,7 +127,6 @@ public class EditScoreActivity extends Activity {
                 finish();
                 break;
         }
-
     }
 
     private void pickImageFromGallery() {
@@ -170,12 +163,32 @@ public class EditScoreActivity extends Activity {
             try{
                 InputStream inputStream = getContentResolver().openInputStream(uri);
                 avatarImage = BitmapFactory.decodeStream(inputStream);
+                updatedImage = true;
             }catch(FileNotFoundException e){
                 e.printStackTrace();
             }
             avatarView.setImageBitmap(avatarImage);
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void saveImage(Bitmap finalBitmap) {
+        String root = getExternalFilesDir(null).getAbsolutePath();
+        File myDir = new File(root + "/saved_images");
+        myDir.mkdirs();
+        String imagename = "Image-"+ editUsername.getText().toString() +".jpg";
+        File file = new File (myDir, imagename);
+        imageroot = myDir+"/"+imagename;
+        if (file.exists ()) file.delete ();
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 40, out);
+            System.out.println(imageroot);
+            out.flush();
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

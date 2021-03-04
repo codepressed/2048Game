@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "2048GameClone"
+rootProject.name = "2048Game"

@@ -19,6 +19,7 @@ public class ScoreListAdapter extends RecyclerView.Adapter<ScoresViewHolder>  {
     public ArrayList<ScoreModel> playersList;
     public OnItemClickListener itemListener;
     public DatabaseHelper databaseHelper;
+    public String avatarPath = "/storage/emulated/0/Android/data/com.codebinars.a2048game/files/saved_images/Image-";
 
 
     public void setOnItemclickListener(OnItemClickListener listener){
@@ -45,8 +46,14 @@ public class ScoreListAdapter extends RecyclerView.Adapter<ScoresViewHolder>  {
         holder.duration.setText(playersList.get(position).getDuration().toString());
         holder.country.setText(databaseHelper.getCountry(playersList.get(position).getUsernameId()));
         if(databaseHelper.getImage(playersList.get(position).getUsernameId()) != null){
-            holder.avatarImage.setImageBitmap(databaseHelper.getImage(playersList.get(position).getUsernameId()));
+        holder.avatarImage.setImageBitmap(databaseHelper.getImage(playersList.get(position).getUsernameId()));
         }
+        //holder.avatarImage.setImageBitmap(databaseHelper.loadImage(avatarPath + databaseHelper.getUser(playersList.get(position).getUsernameId()) + ".jpg"));
+
+        /*
+        if(databaseHelper.getImage(playersList.get(position).getUsernameId()) != null)
+        holder.avatarImage.setImageBitmap(databaseHelper.getImage(playersList.get(position).getUsernameId()));*/
+
     }
 
     @Override

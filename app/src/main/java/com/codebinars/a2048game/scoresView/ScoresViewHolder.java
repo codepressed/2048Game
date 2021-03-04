@@ -25,7 +25,6 @@ public class ScoresViewHolder extends RecyclerView.ViewHolder{
         this.datetime = itemView.findViewById(R.id.dateRecycler);
         this.duration = itemView.findViewById(R.id.durationRecycler);
         this.country = itemView.findViewById(R.id.countryRecycler);
-
         this.deleteImage = itemView.findViewById(R.id.imageDelete);
         this.editImage = itemView.findViewById(R.id.imageEdit);
         this.tweetImage = itemView.findViewById(R.id.tweetIt);
@@ -58,10 +57,5 @@ public class ScoresViewHolder extends RecyclerView.ViewHolder{
                 }
             }
         });
-
-
-
     }
-
-
 }

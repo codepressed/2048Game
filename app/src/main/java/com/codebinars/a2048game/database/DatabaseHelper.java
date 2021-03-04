@@ -7,14 +7,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 
 import androidx.annotation.Nullable;
 
-import com.codebinars.a2048game.fileUtils.ImageUtils;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "CREATE TABLE " + USER_TABLE + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     COLUMN_USERNAME + " TEXT, " +
-                    COLUMN_IMAGE + " BLOB, " +
+                    COLUMN_IMAGE + " TEXT, " +
                     COLUMN_COUNTRY + " TEXT) ";
 
     private SQLiteDatabase db;
@@ -208,7 +208,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-
     /**
      * Update an item of DB
      */
@@ -277,17 +276,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Bitmap getImage(Integer usernameId) {
         checkDbStatus();
         Bitmap theImage = null;
-        String queryGetUser = "SELECT "+ COLUMN_IMAGE +" FROM " + USER_TABLE + " WHERE " + COLUMN_ID + " = " + usernameId;
-        Cursor cursor = db.rawQuery(queryGetUser, null);
-        cursor.moveToFirst();
-        if (cursor.getBlob(0) != null){
-            theImage = ImageUtils.getBitmapFromBytes(cursor.getBlob(0));
-            }
+        String queryGetImage = "SELECT "+ COLUMN_IMAGE +" FROM " + USER_TABLE + " WHERE " + COLUMN_ID + " = " + usernameId;
+        Cursor cursor = db.rawQuery(queryGetImage, null);
+        if (cursor.moveToNext()){
+            theImage = loadImage(cursor.getString(0));
+        }
         return theImage;
     }
 
-    public void updateUser(String username, byte[] avatar, String country){
+    public void updateUser(String username, String avatar, String country){
         checkDbStatus();
+        username = username.toLowerCase();
         String updateUser =  "UPDATE " + USER_TABLE
                 + " SET " + COLUMN_COUNTRY + " = '" + country + "' , " +
                             COLUMN_IMAGE + " = '" + avatar +
@@ -299,6 +298,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(db == null){
             db = getWritableDatabase();
         }
+    }
+
+    public Bitmap loadImage(String imageRoot){
+        Bitmap bitmap = null;
+        try {
+            File file = new File (imageRoot);
+            FileInputStream inputStream = new FileInputStream(file);
+            BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+            bitmap = BitmapFactory.decodeStream(bufferedInputStream);
+        } catch (Exception e) {
+           bitmap = null;
+        }
+
+        return bitmap;
     }
 }
 
