@@ -17,7 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.codebinars.a2048game.EditScoreActivity;
 import com.codebinars.a2048game.R;
-import com.codebinars.a2048game.database.DatabaseHelper;
+import com.codebinars.a2048game.database.DBHelper;
+import com.codebinars.a2048game.database.ScoreDisplay;
 import com.codebinars.a2048game.database.ScoreModel;
 import static com.codebinars.a2048game.scoresView.ScoreConstants.*;
 
@@ -29,11 +30,11 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
     private final int SORT_BY_SCORE =  1;
     private final int SORT_BY_DURATION =  2;
     private final int SORT_BY_DATETIME =  3;
-    private final String TWEETBASE = "https://twitter.com/intent/tweet?text=In Rionacko's 2048 game, I have achieved the score of ";
+    private final String TWEET_INTENT = "https://twitter.com/intent/tweet?text=In Rionacko's 2048 game, I have achieved the score of ";
 
-    private ArrayList<ScoreModel> listScores;
+    private ArrayList<ScoreDisplay> listScores;
     private RecyclerView recyclerViewScores;
-    private DatabaseHelper databaseHelper;
+    private DBHelper dbHelper;
     private ScoreListAdapter adapter;
     private EditText usertop10, filterScoreNumber;
     private Spinner spinnerScore;
@@ -47,14 +48,13 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_score_recycler);
-        databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
+        dbHelper = DBHelper.getInstance(getApplicationContext());
         listScores = new ArrayList<>();
         recyclerViewScores = findViewById(R.id.recyclerScores);
         recyclerViewScores.setLayoutManager(new LinearLayoutManager(this));
         checkScoreList();
-        adapter = new ScoreListAdapter(listScores, this);
+        adapter = new ScoreListAdapter(listScores);
         recyclerViewScores.setAdapter(adapter);
-
         adapter.setOnItemclickListener(new OnItemClickListener() {
             @Override
             public void onDeleteClick(int position) {
@@ -65,16 +65,13 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
             public void onEditClick(int position) {
                 myIntent = new Intent(ScoreListRecycler.this, EditScoreActivity.class);
                 //Send score data
-                myIntent.putExtra(SCORE_ID, listScores.get(position).getId());
+                myIntent.putExtra(SCORE_ID, listScores.get(position).getID());
                 myIntent.putExtra(SCORE_VALUE, listScores.get(position).getScore().toString());
                 myIntent.putExtra(SCORE_DATETIME, listScores.get(position).getDatetime());
                 myIntent.putExtra(SCORE_DURATION, listScores.get(position).getDuration().toString());
-                myIntent.putExtra(USER_NAME, databaseHelper.getUser(listScores.get(position).getUsernameId()));
-                myIntent.putExtra(USER_COUNTRY, databaseHelper.getCountry(listScores.get(position).getUsernameId()));
-                /*if(databaseHelper.getImage(listScores.get(position).getUsernameId()) != null){
-                myIntent.putExtra(USER_AVATAR, databaseHelper.getImage(listScores.get(position).getUsernameId()));
-                }*/
-
+                myIntent.putExtra(USER_NAME, listScores.get(position).getUsername());
+                myIntent.putExtra(USER_COUNTRY, listScores.get(position).getCountry());
+                myIntent.putExtra(USER_AVATAR, listScores.get(position).getAvatar());
                 startActivity(myIntent);
                 finish();
             }
@@ -82,13 +79,11 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
             @Override
             public void onTweetClick(int position) {
                 int tweetScore = listScores.get(position).getScore();
-                String tweetUrl = TWEETBASE+tweetScore;
+                String tweetUrl = TWEET_INTENT +tweetScore;
                 Uri uri = Uri.parse(tweetUrl);
                 startActivity(new Intent(Intent.ACTION_VIEW, uri));
             }
         });
-
-
 
         //SCORE Filtering: Smaller than, equals to, bigger than
         Spinner scoreSpinner = findViewById(R.id.scoreSpinner);
@@ -99,7 +94,7 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
     }
 
     private void removeItem(int position) {
-        databaseHelper.deleteScoreByID(listScores.get(position).getId());
+        dbHelper.deleteScoreByID(listScores.get(position).getID());
         listScores.remove(position);
         adapter.notifyItemRemoved(position);
 
@@ -109,7 +104,7 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
      * Method to load ScoreList
      */
     private void checkScoreList() {
-        listScores = (ArrayList<ScoreModel>) databaseHelper.getAllScores();
+        listScores = (ArrayList<ScoreDisplay>) dbHelper.getAllScores();
     }
 
     /**
@@ -121,10 +116,10 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
             case 0:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     if (!sortedByUsername){
-                        listScores.sort(Comparator.comparing(ScoreModel::getUsernameId));
+                        listScores.sort(Comparator.comparing(ScoreDisplay::getUsername));
                         sortedByUsername = true;}
                     else{
-                        listScores.sort(Comparator.comparing(ScoreModel::getUsernameId).reversed());
+                        listScores.sort(Comparator.comparing(ScoreDisplay::getUsername).reversed());
                         sortedByUsername = false;
                     }
                 }
@@ -132,10 +127,10 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
             case 1:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     if (!sortedByScore){
-                        listScores.sort(Comparator.comparing(ScoreModel::getScore));
+                        listScores.sort(Comparator.comparing(ScoreDisplay::getScore));
                         sortedByScore = true;}
                     else{
-                        listScores.sort(Comparator.comparing(ScoreModel::getScore).reversed());
+                        listScores.sort(Comparator.comparing(ScoreDisplay::getScore).reversed());
                         sortedByScore = false;
                     }
                 }
@@ -143,10 +138,10 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
             case 2:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     if (!sortedByDuration){
-                        listScores.sort(Comparator.comparing(ScoreModel::getDuration));
+                        listScores.sort(Comparator.comparing(ScoreDisplay::getDuration));
                         sortedByDuration = true;}
                     else{
-                        listScores.sort(Comparator.comparing(ScoreModel::getDuration).reversed());
+                        listScores.sort(Comparator.comparing(ScoreDisplay::getDuration).reversed());
                         sortedByDuration = false;
                     }
                 }
@@ -154,10 +149,10 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
             case 3:
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     if (!sortedByDate){
-                        listScores.sort(Comparator.comparing(ScoreModel::getDatetime));
+                        listScores.sort(Comparator.comparing(ScoreDisplay::getDatetime));
                         sortedByDate = true;}
                     else{
-                        listScores.sort(Comparator.comparing(ScoreModel::getDatetime).reversed());
+                        listScores.sort(Comparator.comparing(ScoreDisplay::getDatetime).reversed());
                         sortedByDate = false;
                     }
                 }
@@ -203,14 +198,14 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
     public void onClick(View view){
         switch (view.getId()){
             case R.id.top10:
-                listScores = (ArrayList<ScoreModel>) databaseHelper.getTop10Score();
+                listScores = (ArrayList<ScoreDisplay>) dbHelper.getTop10Scores();
                 adapter.playersList = listScores;
                 recyclerViewScores.setAdapter(adapter);
                 break;
             case R.id.top10byuser:
                 usertop10 = findViewById(R.id.textusertop10);
                 String username = usertop10.getText().toString();
-                listScores = (ArrayList<ScoreModel>) databaseHelper.getTop10ByUsername(username);
+                listScores = (ArrayList<ScoreDisplay>) dbHelper.getTop10ByUser(username);
                 adapter.playersList = listScores;
                 recyclerViewScores.setAdapter(adapter);
                 break;

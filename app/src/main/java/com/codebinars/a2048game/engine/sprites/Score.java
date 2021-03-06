@@ -8,10 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.codebinars.a2048game.R;
-import com.codebinars.a2048game.database.DatabaseHelper;
-
-import java.util.Calendar;
-import java.util.Date;
+import com.codebinars.a2048game.database.DBHelper;
 
 public class Score implements Sprite {
 
@@ -20,7 +17,7 @@ public class Score implements Sprite {
     private Bitmap bmpScore, bmpTopScore, bmpUsertime;
     private Bitmap bmpTopScoreBonus, bmp2048Bonus;
     private int score, topScore, backupScore;
-    private DatabaseHelper databaseHelper;
+    private DBHelper dbHelper;
     private Paint paint;
     private boolean topScoreBonus = false;
     private boolean a2048Bonus = false;
@@ -29,16 +26,16 @@ public class Score implements Sprite {
     private long currentTimeMillis;
     private float currentTimeSeconds;
 
-    public Score(Resources resources, int screenWidth, int screenHeight, int standardSize, DatabaseHelper databaseHelper, String username) {
+    public Score(Resources resources, int screenWidth, int screenHeight, int standardSize, DBHelper dbHelper, String username) {
         this.resources = resources;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.standardSize = standardSize;
-        this.databaseHelper = databaseHelper;
+        this.dbHelper = dbHelper;
         this.username = username;
         this.startTime = System.currentTimeMillis();
 
-        topScore = databaseHelper.getTopScore();
+        topScore = dbHelper.getTopScore();
         int width = (int) resources.getDimension(R.dimen.score_label_width);
         int height = (int) resources.getDimension(R.dimen.score_label_height);
 
@@ -96,7 +93,7 @@ public class Score implements Sprite {
      * Check if score can be in Top 10 Scores
      */
     private void checkTopScore() {
-        topScore = databaseHelper.getTopScore();
+        topScore = dbHelper.getTopScore();
         if (topScore < score) {
             topScore = score;
 

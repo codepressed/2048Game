@@ -18,7 +18,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.codebinars.a2048game.database.DatabaseHelper;
+
+import com.codebinars.a2048game.database.DBHelper;
+import com.codebinars.a2048game.scoresView.ImageUtils;
 import com.codebinars.a2048game.scoresView.ScoreListRecycler;
 
 import java.io.File;
@@ -33,7 +35,7 @@ import static com.codebinars.a2048game.scoresView.ScoreConstants.*;
 public class EditScoreActivity extends Activity {
     private static final int IMAGE_PICK_CODE = 1000;
     private static final int PERMISSION_CODE = 1001;
-    private DatabaseHelper databaseHelper;
+    private DBHelper dbHelper;
     private EditText editUsername, editScore, editDuration, editCountry;
     private TextView editDate;
     private ImageView avatarView;
@@ -57,7 +59,7 @@ public class EditScoreActivity extends Activity {
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             updateDate();
         };
-        databaseHelper = DatabaseHelper.getInstance(getApplicationContext());
+        dbHelper = DBHelper.getInstance(getApplicationContext());
         editScore = findViewById(R.id.editScoreCamp);
         editUsername = findViewById(R.id.editUsernameCamp);
         editDate = findViewById(R.id.editDateCamp);
@@ -72,8 +74,8 @@ public class EditScoreActivity extends Activity {
         editDuration.setText(extras.getString(SCORE_DURATION));
         editUsername.setText(extras.getString(USER_NAME));
         editCountry.setText(extras.getString(USER_COUNTRY));
-        if(databaseHelper.getImage(databaseHelper.UserInDB(extras.getString(USER_NAME))) != null){
-            avatarView.setImageBitmap(databaseHelper.getImage(databaseHelper.UserInDB(extras.getString(USER_NAME))));
+        if(extras.getString(USER_AVATAR) != null && (extras.getString(USER_AVATAR).length() > 5)){
+            avatarView.setImageBitmap(ImageUtils.loadImage(extras.getString(USER_AVATAR)));
         }
         editDate.setText(extras.getString(SCORE_DATETIME));
         editDate.setOnClickListener(new View.OnClickListener(){
@@ -107,16 +109,16 @@ public class EditScoreActivity extends Activity {
                 editCountry.setText(getApplicationContext().getResources().getConfiguration().locale.getDisplayCountry());
                 break;
             case R.id.savechanges:
-                    databaseHelper.updateScore(
+                    dbHelper.updateScore(
                             scoreId,
                             editUsername.getText().toString(),
                             Integer.valueOf(editScore.getText().toString()),
                             editDate.getText().toString(),
                             Float.parseFloat(editDuration.getText().toString()));
                     if (avatarImage!=null){
-                        saveImage(avatarImage);
+                        saveImage(avatarImage); //Store the IMAGE on DEVICE if it was loaded
                     }
-                    databaseHelper.updateUser(editUsername.getText().toString().toLowerCase(), imageroot, editCountry.getText().toString());
+                    dbHelper.updateUser(editUsername.getText().toString().toLowerCase(), imageroot, editCountry.getText().toString());
                     myIntent = new Intent(EditScoreActivity.this, ScoreListRecycler.class);
                     startActivity(myIntent);
                     finish();
@@ -172,6 +174,11 @@ public class EditScoreActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    /**
+     * We could simply save images every time a user loads one
+     * But we prefer so store them only if he clicks "Save"
+     * @param finalBitmap
+     */
     private void saveImage(Bitmap finalBitmap) {
         String root = getExternalFilesDir(null).getAbsolutePath();
         File myDir = new File(root + "/saved_images");

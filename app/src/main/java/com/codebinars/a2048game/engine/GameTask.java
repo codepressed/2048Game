@@ -20,13 +20,12 @@ import android.view.WindowMetrics;
 import androidx.annotation.NonNull;
 
 import com.codebinars.a2048game.R;
-import com.codebinars.a2048game.database.DatabaseHelper;
+import com.codebinars.a2048game.database.DBHelper;
 import com.codebinars.a2048game.database.ScoreModel;
 import com.codebinars.a2048game.engine.sprites.EndGame;
 import com.codebinars.a2048game.engine.sprites.Grid;
 import com.codebinars.a2048game.engine.sprites.Score;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -44,7 +43,7 @@ public class GameTask extends SurfaceView implements SurfaceHolder.Callback, Swi
     private Score score;
     private Bitmap restartButton, undomovementButton, bmpCopyright;
     private int restartButtonX, restartButtonY, undoMovementX, undoMovementY;
-    private DatabaseHelper databaseHelper;
+    private DBHelper dbHelper;
     private Boolean scoreSaved = false;
     private String username;
     private int buttonHeight, buttonWidth;
@@ -69,12 +68,12 @@ public class GameTask extends SurfaceView implements SurfaceHolder.Callback, Swi
         scWidth = getScreenWidth((Activity)context);
         scHeight = getScreenHeight((Activity)context);
         standardSize = (int) (scWidth*0.88)/4;
-        databaseHelper = DatabaseHelper.getInstance((Activity) context);
+        dbHelper = DBHelper.getInstance((Activity) context);
 
         grid = new Grid(getResources(),scWidth,scHeight,standardSize);
         tileManager = new TileManager(getResources(), standardSize, scWidth, scHeight, this);
         endgameSprite = new EndGame(getResources(), scWidth, scHeight);
-        score = new Score(getResources(), scWidth, scHeight, standardSize, databaseHelper, username);
+        score = new Score(getResources(), scWidth, scHeight, standardSize, dbHelper, username);
 
         buttonWidth = (int) getResources().getDimension(R.dimen.button_width);
         buttonHeight = (int) getResources().getDimension(R.dimen.button_height);
@@ -132,7 +131,7 @@ public class GameTask extends SurfaceView implements SurfaceHolder.Callback, Swi
     public void initGame() {
         endGame = false;
         tileManager.initGame();
-        score = new Score(getResources(), scWidth, scHeight, standardSize, databaseHelper, username);
+        score = new Score(getResources(), scWidth, scHeight, standardSize, dbHelper, username);
         scoreSaved = false;
         System.out.printf("Oh, thanks %s for playing the game",username);
     }
@@ -199,7 +198,7 @@ public class GameTask extends SurfaceView implements SurfaceHolder.Callback, Swi
             }
             //Check if UNDO MOVEMENT was pressed
             if(event.getAction() == MotionEvent.ACTION_DOWN && eventX > undoMovementX && eventX < undoMovementX + buttonWidth &&
-                    eventY > undoMovementY && eventY < undoMovementY + buttonHeight){
+                    eventY > undoMovementY && eventY < undoMovementY + buttonHeight && score.getScore() > 0){
                     restoreBackup();
             }
             swipe.onTouchEvent(event);
@@ -240,10 +239,10 @@ public class GameTask extends SurfaceView implements SurfaceHolder.Callback, Swi
     public void saveScore(){
         ScoreModel scoreModel = new ScoreModel();
         scoreModel.setScore(score.getScore());
-        scoreModel.setUsernameId(databaseHelper.UserInDB(username));
+        scoreModel.setUsernameId(dbHelper.UserInDB(username));
         scoreModel.setDatetime(dateFormat.format(cal.getTime()));
         scoreModel.setDuration(score.getCurrentTimeSeconds());
-        databaseHelper.addScore(scoreModel);
+        dbHelper.addScore(scoreModel);
         System.out.println("Score saved: "+scoreModel);
         }
 }

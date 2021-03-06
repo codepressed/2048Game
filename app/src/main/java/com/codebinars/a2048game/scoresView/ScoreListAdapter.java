@@ -1,34 +1,26 @@
 package com.codebinars.a2048game.scoresView;
 
-import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.codebinars.a2048game.R;
-import com.codebinars.a2048game.database.DatabaseHelper;
-import com.codebinars.a2048game.database.ScoreModel;
-import java.util.ArrayList;
+import com.codebinars.a2048game.database.ScoreDisplay;
 
-import static com.codebinars.a2048game.scoresView.ScoreConstants.USER_AVATAR;
+import java.util.ArrayList;
 
 public class ScoreListAdapter extends RecyclerView.Adapter<ScoresViewHolder>  {
 
-    public ArrayList<ScoreModel> playersList;
+    public ArrayList<ScoreDisplay> playersList;
     public OnItemClickListener itemListener;
-    public DatabaseHelper databaseHelper;
-    public String avatarPath = "/storage/emulated/0/Android/data/com.codebinars.a2048game/files/saved_images/Image-";
-
 
     public void setOnItemclickListener(OnItemClickListener listener){
         itemListener = listener;
     }
 
-    public ScoreListAdapter(ArrayList<ScoreModel> playersList, Context context) {
+    public ScoreListAdapter(ArrayList<ScoreDisplay> playersList) {
         this.playersList = playersList;
-        databaseHelper = DatabaseHelper.getInstance(context);
     }
     @NonNull
     @Override
@@ -41,19 +33,13 @@ public class ScoreListAdapter extends RecyclerView.Adapter<ScoresViewHolder>  {
     @Override
     public void onBindViewHolder(@NonNull ScoresViewHolder holder, int position) {
         holder.score.setText(playersList.get(position).getScore().toString());
-        holder.username.setText(databaseHelper.getUser(playersList.get(position).getUsernameId()));
+        holder.username.setText(playersList.get(position).getUsername());
         holder.datetime.setText(playersList.get(position).getDatetime());
         holder.duration.setText(playersList.get(position).getDuration().toString());
-        holder.country.setText(databaseHelper.getCountry(playersList.get(position).getUsernameId()));
-        if(databaseHelper.getImage(playersList.get(position).getUsernameId()) != null){
-        holder.avatarImage.setImageBitmap(databaseHelper.getImage(playersList.get(position).getUsernameId()));
+        holder.country.setText(playersList.get(position).getCountry());
+        if(playersList.get(position).getAvatar() !=null && playersList.get(position).getAvatar().length() > 5){
+            holder.avatarImage.setImageBitmap(ImageUtils.loadImage(playersList.get(position).getAvatar()));
         }
-        //holder.avatarImage.setImageBitmap(databaseHelper.loadImage(avatarPath + databaseHelper.getUser(playersList.get(position).getUsernameId()) + ".jpg"));
-
-        /*
-        if(databaseHelper.getImage(playersList.get(position).getUsernameId()) != null)
-        holder.avatarImage.setImageBitmap(databaseHelper.getImage(playersList.get(position).getUsernameId()));*/
-
     }
 
     @Override

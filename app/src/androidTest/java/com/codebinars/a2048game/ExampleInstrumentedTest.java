@@ -5,7 +5,6 @@ import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.codebinars.a2048game.database.DatabaseHelper;
 import com.codebinars.a2048game.database.ScoreModel;
 
 import org.junit.Test;
