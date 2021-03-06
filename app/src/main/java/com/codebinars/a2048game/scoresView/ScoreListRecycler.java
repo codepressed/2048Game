@@ -11,7 +11,9 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,6 +56,7 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
         recyclerViewScores.setLayoutManager(new LinearLayoutManager(this));
         checkScoreList();
         adapter = new ScoreListAdapter(listScores);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerViewScores);
         recyclerViewScores.setAdapter(adapter);
         adapter.setOnItemclickListener(new OnItemClickListener() {
             @Override
@@ -92,6 +95,19 @@ public class ScoreListRecycler extends Activity implements AdapterView.OnItemSel
         scoreSpinner.setAdapter(scoreAdapter);
         scoreSpinner.setOnItemSelectedListener(this);
     }
+
+    ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) { //Type of movement, DIRECTION
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            dbHelper.deleteScoreByID(listScores.get(viewHolder.getAdapterPosition()).getID());
+            listScores.remove(viewHolder.getAdapterPosition());
+            adapter.notifyDataSetChanged();
+        }
+    };
 
     private void removeItem(int position) {
         dbHelper.deleteScoreByID(listScores.get(position).getID());

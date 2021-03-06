@@ -107,7 +107,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 "SELECT "+ "SCORE."+COLUMN_ID+", "+COLUMN_SCORE+", "+COLUMN_DATETIME+", "+COLUMN_DURATION+", "+
                  COLUMN_USERNAME+", "+COLUMN_IMAGE+", "+COLUMN_COUNTRY +
                  " FROM "+USER_TABLE +" USER"+
-                 " INNER JOIN "+SCORE_TABLE+ " SCORE" + " ON "+ "USER."+COLUMN_ID +" = "+COLUMN_USERNAME_ID;
+                 " INNER JOIN "+SCORE_TABLE+ " SCORE" + " ON "+ "USER."+COLUMN_ID +" = "+COLUMN_USERNAME_ID +
+                 " ORDER BY " + COLUMN_SCORE + " DESC";
         Cursor cursor = db.rawQuery(queryAllScores, null);
         if (cursor.moveToNext()) {
             do{
