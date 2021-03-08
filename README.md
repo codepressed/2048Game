@@ -1,6 +1,8 @@
  # 2048 Game
  2048 Game is a Java Android game with some bonus functionalities such as Users, Undo movement
- between others.
+ among other functions.
+ 
+ 
 ![](app/src/main/res/drawable/gamelogoa4.png)
 
 ## Features
@@ -32,4 +34,5 @@
 
  ## License and references
  [Personal Website](https://www.codebinars.com)
+ 
  [MIT](https://choosealicense.com/licenses/mit/)
