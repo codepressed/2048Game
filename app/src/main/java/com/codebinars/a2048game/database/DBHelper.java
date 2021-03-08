@@ -57,7 +57,6 @@ public class DBHelper extends SQLiteOpenHelper {
         super(applicationContext, DB_NAME, null, 2);
     }
 
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_USER_TABLE_STATEMENT);
@@ -172,8 +171,8 @@ public class DBHelper extends SQLiteOpenHelper {
                         COLUMN_USERNAME+", "+COLUMN_IMAGE+", "+COLUMN_COUNTRY +
                         " FROM "+USER_TABLE +" USER"+
                         " INNER JOIN "+SCORE_TABLE+ " SCORE" + " ON "+ "USER."+COLUMN_ID +" = "+COLUMN_USERNAME_ID +
-                        " WHERE " + COLUMN_USERNAME + " = '" + usertop +
-                        "' ORDER BY " + COLUMN_SCORE + " DESC LIMIT 10";
+                        " WHERE " + COLUMN_USERNAME + " LIKE " + "'%" + usertop + "%'" +
+                        " ORDER BY " + COLUMN_SCORE + " DESC LIMIT 10";
 
         Cursor cursor = db.rawQuery(queryAllScores, null);
         if (cursor.moveToNext()) {

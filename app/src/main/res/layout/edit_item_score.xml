@@ -38,6 +38,7 @@
             android:inputType="number"
             android:textColor="@android:color/black"
             android:textSize="@dimen/recycler_font_size"
+            android:textAlignment="center"
             android:layout_marginLeft="10dp"/>
 
 
@@ -82,6 +83,7 @@
             android:layout_toEndOf="@+id/editDuration"
             android:layout_below="@+id/editDate"
             android:text="500.0"
+            android:textAlignment="center"
             android:inputType="numberDecimal"
             android:maxLength="9"
             android:textColor="@android:color/black"
@@ -119,6 +121,7 @@
             android:text="Unknown"
             android:textColor="@android:color/black"
             android:textSize="@dimen/recycler_font_size"
+            android:textAlignment="center"
             android:maxLength="10"
             android:layout_marginLeft="10dp"/>
 

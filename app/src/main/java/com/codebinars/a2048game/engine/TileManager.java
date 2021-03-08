@@ -347,7 +347,7 @@ public class TileManager implements TileManagerCallback, Sprite {
      * First: Check if we can add more values to Tiles
      * Second: Check if there are value matches (Skip if First case is possible)
      */
-    private void checkEndgame() {
+    private synchronized void checkEndgame() {
         endGame = true;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -429,6 +429,4 @@ public class TileManager implements TileManagerCallback, Sprite {
     public void reached2048() {
         callback.reached2048();
     }
-
-
 }

@@ -9,7 +9,7 @@ import java.io.FileInputStream;
 
 public class ImageUtils {
     public static Bitmap loadImage(String imageRoot){
-        Bitmap bitmap = null;
+        Bitmap bitmap;
         try {
             File file = new File (imageRoot);
             FileInputStream inputStream = new FileInputStream(file);

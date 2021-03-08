@@ -3,12 +3,20 @@ package com.codebinars.a2048game.databaseRoom;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.UUID;
 
-@Entity(tableName = "scores")
+import static androidx.room.ForeignKey.CASCADE;
+
+@Entity(
+        tableName = "scores",
+        foreignKeys = {
+                @ForeignKey(entity = UserModel.class,
+                            parentColumns = "user_id",
+                            childColumns = "score_username_id")})
 public class ScoreModel {
 
     @PrimaryKey
@@ -19,7 +27,7 @@ public class ScoreModel {
     @ColumnInfo(name = "score_value")
     protected Integer mScore;
 
-    @ColumnInfo(name = "score_username")
+    @ColumnInfo(name = "score_username_id")
     protected String mUsername;
 
     @ColumnInfo(name = "score_datetime")

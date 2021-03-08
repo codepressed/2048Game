@@ -21,7 +21,6 @@ import com.codebinars.a2048game.EditScoreActivity;
 import com.codebinars.a2048game.R;
 import com.codebinars.a2048game.database.DBHelper;
 import com.codebinars.a2048game.database.ScoreDisplay;
-import com.codebinars.a2048game.database.ScoreModel;
 import static com.codebinars.a2048game.scoresView.ScoreConstants.*;
 
 import java.util.ArrayList;

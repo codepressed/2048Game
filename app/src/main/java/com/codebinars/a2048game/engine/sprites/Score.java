@@ -81,7 +81,6 @@ public class Score implements Sprite {
 
     @Override
     public void update() {
-
     }
 
     public void updateScore(int delta) {

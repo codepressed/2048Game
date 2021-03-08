@@ -190,7 +190,6 @@ public class EditScoreActivity extends Activity {
         try {
             FileOutputStream out = new FileOutputStream(file);
             finalBitmap.compress(Bitmap.CompressFormat.JPEG, 40, out);
-            System.out.println(imageroot);
             out.flush();
             out.close();
         } catch (Exception e) {
